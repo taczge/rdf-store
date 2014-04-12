@@ -1,12 +1,22 @@
 package core;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ResourceImpl implements Resource {
 
-	private final String name;
+	// 1度生成したインスタンスを使いまわす
+	private static final Map<String,ResourceImpl> pool = new HashMap<>();
 	
 	public static ResourceImpl of(String name) {
-		return new ResourceImpl(name);
+		if ( !pool.containsKey(name) ) {
+			pool.put( name, new ResourceImpl(name) );
+		}
+
+		return pool.get(name);
 	}
+	
+	private final String name;
 
 	private ResourceImpl(String name) {
 		super();
@@ -45,7 +55,7 @@ public class ResourceImpl implements Resource {
 
 	@Override
 	public String toString() {
-		return "ResourceImpl [name=" + name + "]";
+		return name;
 	}
-	
+
 }

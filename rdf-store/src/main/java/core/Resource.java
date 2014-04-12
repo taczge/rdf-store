@@ -1,5 +1,7 @@
 package core;
 
-public interface Resource {
+import query.Constant;
+
+public interface Resource extends Constant {
 
 }
