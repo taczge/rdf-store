@@ -1,0 +1,3 @@
+Human,rdfs:subClassOf,Life
+Man,rdfs:subClassOf,Human
+Woman,rdfs:subClassOf,Human

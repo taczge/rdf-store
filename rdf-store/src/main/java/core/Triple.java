@@ -13,6 +13,10 @@ public class Triple {
 		this.predicate = predicate;
 		this.object = object;
 	}
+	
+	public Triple(String s, String p, String o) {
+		this(Resource.of(s), Resource.of(p), Resource.of(o));
+	}
 
 	public Resource getSubject() {
 		return subject;

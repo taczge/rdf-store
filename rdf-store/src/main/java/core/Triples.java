@@ -62,6 +62,17 @@ public class Triples implements QueryTarget {
 		}
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		for ( final Triple t : stmap.values() ) {
+			sb.append(t).append(System.lineSeparator());
+		}
+		
+		return sb.toString();
+	}
 
 	public void add(Triple t) {
 		Resource s = t.getSubject();
