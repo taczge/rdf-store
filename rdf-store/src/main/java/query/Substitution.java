@@ -21,6 +21,10 @@ public class Substitution {
 		substitutions.put(v, c);		
 	}
 	
+	public void put(Variable v, Constant c) {
+		substitutions.put(v, c);
+	}
+	
 	public boolean contains(Variable var) {
 		return substitutions.containsKey(var);
 	}

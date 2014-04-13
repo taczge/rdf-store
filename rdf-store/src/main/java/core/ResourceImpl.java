@@ -3,6 +3,9 @@ package core;
 import java.util.HashMap;
 import java.util.Map;
 
+import query.Substitution;
+import query.Token;
+
 public class ResourceImpl implements Resource {
 
 	// 1度生成したインスタンスを使いまわす
@@ -56,6 +59,11 @@ public class ResourceImpl implements Resource {
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public Token apply(Substitution s) {
+		return this;
 	}
 
 }

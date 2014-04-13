@@ -1,23 +1,12 @@
 package query;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 public class Resolution {
 
 	public static final Resolution SUCCESS = new Resolution();
 	public static final Resolution FAILURE = new Resolution();
-	
-	public static Resolution of(Variable var, Iterator<? extends Constant> it) {
-		Set<Substitution> subs = new HashSet<>();
-		
-		while ( it.hasNext() ) {
-			subs.add( new Substitution(var, it.next()) );
-		}
-		
-		return new Resolution(subs);
-	}
 	
 	private Set<Substitution> substitusions;
 

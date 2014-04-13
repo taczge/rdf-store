@@ -1,18 +1,20 @@
 package query.primitive;
 
-import query.Constant;
 import query.PrimitiveQuery;
 import query.QueryTarget;
 import query.Resolution;
 import query.Substitution;
+import query.Token;
 
-public class CCC implements PrimitiveQuery {
+public abstract class
+AbstractPrimitiveQuery<T1 extends Token,T2 extends Token,T3 extends Token>
+implements PrimitiveQuery {
 	
-	private final Constant s;
-	private final Constant p;
-	private final Constant o;
-	
-	public CCC(Constant s, Constant p, Constant o) {
+	protected final T1 s;
+	protected final T2 p;
+	protected final T3 o;
+
+	public AbstractPrimitiveQuery(T1 s, T2 p, T3 o) {
 		super();
 		this.s = s;
 		this.p = p;
@@ -40,7 +42,8 @@ public class CCC implements PrimitiveQuery {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		CCC other = (CCC) obj;
+		@SuppressWarnings("rawtypes")
+		AbstractPrimitiveQuery other = (AbstractPrimitiveQuery) obj;
 		if (o == null) {
 			if (other.o != null) {
 				return false;
@@ -69,15 +72,13 @@ public class CCC implements PrimitiveQuery {
 	public String toString() {
 		return String.format("%s,%s,%s.", s, p, o);
 	}
+	
+	@Override
+	public abstract Resolution solve(QueryTarget target);
 
 	@Override
-	public Resolution solve(QueryTarget target) {
-		return target.contains(s, p, o) ? Resolution.SUCCESS : Resolution.FAILURE;
+	public PrimitiveQuery apply(Substitution sub) {
+		return PrimitiveQueryFactory.create( s.apply(sub), p.apply(sub), o.apply(sub) );
 	}
-
-	@Override
-	public PrimitiveQuery apply(Substitution substitusion) {
-		return this;
-	}
-
+	
 }
