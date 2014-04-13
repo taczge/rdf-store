@@ -1,23 +1,18 @@
 package query.primitive;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import query.Constant;
 import query.PrimitiveQuery;
 import query.QueryTarget;
 import query.Resolution;
 import query.Substitution;
-import query.Variable;
-import core.TripleIter;
 
-public class CCVPrimitive implements PrimitiveQuery {
+public class CCC implements PrimitiveQuery {
 	
 	private final Constant s;
 	private final Constant p;
-	private final Variable o;
-
-	public CCVPrimitive(Constant s, Constant p, Variable o) {
+	private final Constant o;
+	
+	public CCC(Constant s, Constant p, Constant o) {
 		super();
 		this.s = s;
 		this.p = p;
@@ -28,9 +23,9 @@ public class CCVPrimitive implements PrimitiveQuery {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((o == null) ? 0 : o.hashCode());
 		result = prime * result + ((p == null) ? 0 : p.hashCode());
 		result = prime * result + ((s == null) ? 0 : s.hashCode());
-		result = prime * result + ((o == null) ? 0 : o.hashCode());
 		return result;
 	}
 
@@ -45,7 +40,14 @@ public class CCVPrimitive implements PrimitiveQuery {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		CCVPrimitive other = (CCVPrimitive) obj;
+		CCC other = (CCC) obj;
+		if (o == null) {
+			if (other.o != null) {
+				return false;
+			}
+		} else if (!o.equals(other.o)) {
+			return false;
+		}
 		if (p == null) {
 			if (other.p != null) {
 				return false;
@@ -60,13 +62,6 @@ public class CCVPrimitive implements PrimitiveQuery {
 		} else if (!s.equals(other.s)) {
 			return false;
 		}
-		if (o == null) {
-			if (other.o != null) {
-				return false;
-			}
-		} else if (!o.equals(other.o)) {
-			return false;
-		}
 		return true;
 	}
 
@@ -77,24 +72,12 @@ public class CCVPrimitive implements PrimitiveQuery {
 
 	@Override
 	public Resolution solve(QueryTarget target) {
-		Set<Substitution> res = new HashSet<>();
-
-		for (TripleIter it = target.listSPX(s, p); it.hasNext(); ) {
-			Constant constant = it.next().getObject();
-			res.add( new Substitution(o, constant) ); 
-		}
-
-		return new Resolution(res);
+		return target.contains(s, p, o) ? Resolution.SUCCESS : Resolution.FAILURE;
 	}
 
 	@Override
 	public PrimitiveQuery apply(Substitution substitusion) {
-		if ( substitusion.contains(o) ) {
-			Constant applied = substitusion.getAssignedValue(o);
-
-			return new CCCPrimitive(s, p, applied);
-		}
-
 		return this;
 	}
+
 }

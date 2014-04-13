@@ -11,13 +11,13 @@ import query.Substitution;
 import query.Variable;
 import core.TripleIter;
 
-public class CVCPrimitive implements PrimitiveQuery {
+public class CVC implements PrimitiveQuery {
 	
 	private final Constant s;
 	private final Variable p;
 	private final Constant o;
 
-	public CVCPrimitive(Constant s, Variable p, Constant o) {
+	public CVC(Constant s, Variable p, Constant o) {
 		super();
 		this.s = s;
 		this.p = p;
@@ -50,7 +50,7 @@ public class CVCPrimitive implements PrimitiveQuery {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		CVCPrimitive other = (CVCPrimitive) obj;
+		CVC other = (CVC) obj;
 		if (o == null) {
 			if (other.o != null) {
 				return false;
@@ -92,7 +92,7 @@ public class CVCPrimitive implements PrimitiveQuery {
 		if ( substitusion.contains(p) ) {
 			Constant applied = substitusion.getAssignedValue(p);
 
-			return new CCCPrimitive(s, applied, o);
+			return new CCC(s, applied, o);
 		}
 
 		return this;

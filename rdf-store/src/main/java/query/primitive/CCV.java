@@ -11,13 +11,13 @@ import query.Substitution;
 import query.Variable;
 import core.TripleIter;
 
-public class VCCPrimitive implements PrimitiveQuery {
+public class CCV implements PrimitiveQuery {
 	
-	private final Variable s;
+	private final Constant s;
 	private final Constant p;
-	private final Constant o;
-	
-	public VCCPrimitive(Variable s, Constant p, Constant o) {
+	private final Variable o;
+
+	public CCV(Constant s, Constant p, Variable o) {
 		super();
 		this.s = s;
 		this.p = p;
@@ -28,9 +28,9 @@ public class VCCPrimitive implements PrimitiveQuery {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((o == null) ? 0 : o.hashCode());
 		result = prime * result + ((p == null) ? 0 : p.hashCode());
 		result = prime * result + ((s == null) ? 0 : s.hashCode());
+		result = prime * result + ((o == null) ? 0 : o.hashCode());
 		return result;
 	}
 
@@ -45,14 +45,7 @@ public class VCCPrimitive implements PrimitiveQuery {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		VCCPrimitive other = (VCCPrimitive) obj;
-		if (o == null) {
-			if (other.o != null) {
-				return false;
-			}
-		} else if (!o.equals(other.o)) {
-			return false;
-		}
+		CCV other = (CCV) obj;
 		if (p == null) {
 			if (other.p != null) {
 				return false;
@@ -67,6 +60,13 @@ public class VCCPrimitive implements PrimitiveQuery {
 		} else if (!s.equals(other.s)) {
 			return false;
 		}
+		if (o == null) {
+			if (other.o != null) {
+				return false;
+			}
+		} else if (!o.equals(other.o)) {
+			return false;
+		}
 		return true;
 	}
 
@@ -79,9 +79,9 @@ public class VCCPrimitive implements PrimitiveQuery {
 	public Resolution solve(QueryTarget target) {
 		Set<Substitution> res = new HashSet<>();
 
-		for (TripleIter it = target.listXPO(p, o); it.hasNext(); ) {
-			Constant constant = it.next().getSubject();
-			res.add( new Substitution(s, constant) ); 
+		for (TripleIter it = target.listSPX(s, p); it.hasNext(); ) {
+			Constant constant = it.next().getObject();
+			res.add( new Substitution(o, constant) ); 
 		}
 
 		return new Resolution(res);
@@ -89,13 +89,12 @@ public class VCCPrimitive implements PrimitiveQuery {
 
 	@Override
 	public PrimitiveQuery apply(Substitution substitusion) {
-		if ( substitusion.contains(s) ) {
-			Constant applied = substitusion.getAssignedValue(s);
+		if ( substitusion.contains(o) ) {
+			Constant applied = substitusion.getAssignedValue(o);
 
-			return new CCCPrimitive(applied, p, o);
+			return new CCC(s, p, applied);
 		}
 
 		return this;
 	}
-
 }

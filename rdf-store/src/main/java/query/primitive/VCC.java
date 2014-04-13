@@ -1,18 +1,23 @@
 package query.primitive;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import query.Constant;
 import query.PrimitiveQuery;
 import query.QueryTarget;
 import query.Resolution;
 import query.Substitution;
+import query.Variable;
+import core.TripleIter;
 
-public class CCCPrimitive implements PrimitiveQuery {
+public class VCC implements PrimitiveQuery {
 	
-	private final Constant s;
+	private final Variable s;
 	private final Constant p;
 	private final Constant o;
 	
-	public CCCPrimitive(Constant s, Constant p, Constant o) {
+	public VCC(Variable s, Constant p, Constant o) {
 		super();
 		this.s = s;
 		this.p = p;
@@ -40,7 +45,7 @@ public class CCCPrimitive implements PrimitiveQuery {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		CCCPrimitive other = (CCCPrimitive) obj;
+		VCC other = (VCC) obj;
 		if (o == null) {
 			if (other.o != null) {
 				return false;
@@ -72,11 +77,24 @@ public class CCCPrimitive implements PrimitiveQuery {
 
 	@Override
 	public Resolution solve(QueryTarget target) {
-		return target.contains(s, p, o) ? Resolution.SUCCESS : Resolution.FAILURE;
+		Set<Substitution> res = new HashSet<>();
+
+		for (TripleIter it = target.listXPO(p, o); it.hasNext(); ) {
+			Constant constant = it.next().getSubject();
+			res.add( new Substitution(s, constant) ); 
+		}
+
+		return new Resolution(res);
 	}
 
 	@Override
 	public PrimitiveQuery apply(Substitution substitusion) {
+		if ( substitusion.contains(s) ) {
+			Constant applied = substitusion.getAssignedValue(s);
+
+			return new CCC(applied, p, o);
+		}
+
 		return this;
 	}
 
