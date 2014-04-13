@@ -3,16 +3,16 @@ package query.primitive;
 import java.util.HashSet;
 import java.util.Set;
 
-import query.Constant;
 import query.QueryTarget;
 import query.Resolution;
 import query.Substitution;
 import query.Variable;
-import core.TripleIter;
+import core.Resource;
+import core.Triple;
 
-public class SXO extends AbstractPrimitiveQuery<Constant,Variable,Constant> {
+public class SXO extends AbstractPrimitiveQuery<Resource,Variable,Resource> {
 	
-	public SXO(Constant s, Variable p, Constant o) {
+	public SXO(Resource s, Variable p, Resource o) {
 		super(s, p, o);
 	}
 
@@ -20,9 +20,8 @@ public class SXO extends AbstractPrimitiveQuery<Constant,Variable,Constant> {
 	public Resolution solve(QueryTarget target) {
 		Set<Substitution> res = new HashSet<>();
 
-		for (TripleIter it = target.listSXO(s, o); it.hasNext(); ) {
-			Constant constant = it.next().getPredicate();
-			res.add( new Substitution(p, constant) ); 
+		for ( final Triple t : target.listSXO(s, o) ) {
+			res.add( new Substitution(p, t.getPredicate()) ); 
 		}
 
 		return new Resolution(res);

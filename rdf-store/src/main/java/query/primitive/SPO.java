@@ -1,12 +1,12 @@
 package query.primitive;
 
-import query.Constant;
 import query.QueryTarget;
 import query.Resolution;
+import core.Resource;
 
-public class SPO extends AbstractPrimitiveQuery<Constant,Constant,Constant> {
+public class SPO extends AbstractPrimitiveQuery<Resource,Resource,Resource> {
 	
-	public SPO(Constant s, Constant p, Constant o) {
+	public SPO(Resource s, Resource p, Resource o) {
 		super(s, p, o);
 	}
 

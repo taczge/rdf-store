@@ -3,16 +3,16 @@ package query.primitive;
 import java.util.HashSet;
 import java.util.Set;
 
-import query.Constant;
 import query.QueryTarget;
 import query.Resolution;
 import query.Substitution;
 import query.Variable;
-import core.TripleIter;
+import core.Resource;
+import core.Triple;
 
-public class XPO extends AbstractPrimitiveQuery<Variable,Constant,Constant> {
+public class XPO extends AbstractPrimitiveQuery<Variable,Resource,Resource> {
 	
-	public XPO(Variable s, Constant p, Constant o) {
+	public XPO(Variable s, Resource p, Resource o) {
 		super(s, p, o);
 	}
 
@@ -20,9 +20,8 @@ public class XPO extends AbstractPrimitiveQuery<Variable,Constant,Constant> {
 	public Resolution solve(QueryTarget target) {
 		Set<Substitution> res = new HashSet<>();
 
-		for (TripleIter it = target.listXPO(p, o); it.hasNext(); ) {
-			Constant constant = it.next().getSubject();
-			res.add( new Substitution(s, constant) ); 
+		for ( final Triple t : target.listXPO(p, o) ) {
+			res.add( new Substitution(s, t.getSubject()) ); 
 		}
 
 		return new Resolution(res);

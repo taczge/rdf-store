@@ -3,25 +3,27 @@ package query;
 import java.util.HashMap;
 import java.util.Map;
 
+import core.Resource;
+
 public class Substitution {
 	
-	private Map<Variable, Constant> substitutions;
+	private Map<Variable, Resource> substitutions;
 
-	public Substitution(Map<Variable, Constant> substitutions) {
+	public Substitution(Map<Variable, Resource> substitutions) {
 		super();
 		this.substitutions = substitutions;
 	}
 	
 	public Substitution() {
-		this( new HashMap<Variable, Constant>() );
+		this( new HashMap<Variable, Resource>() );
 	}
 	
-	public Substitution(Variable v, Constant c) {
+	public Substitution(Variable v, Resource c) {
 		this();
 		substitutions.put(v, c);		
 	}
 	
-	public void put(Variable v, Constant c) {
+	public void put(Variable v, Resource c) {
 		substitutions.put(v, c);
 	}
 	
@@ -29,7 +31,7 @@ public class Substitution {
 		return substitutions.containsKey(var);
 	}
 	
-	public Constant getAssignedValue(Variable var) {
+	public Resource getAssignedValue(Variable var) {
 		return substitutions.get(var);
 	}
 	

@@ -2,8 +2,8 @@ package query.primitive;
 
 import query.PrimitiveQuery;
 import query.Token;
-import query.VariableImpl;
-import core.ResourceImpl;
+import query.Variable;
+import core.Resource;
 
 public class PrimitiveQueryParser {
 	
@@ -30,10 +30,10 @@ public class PrimitiveQueryParser {
 		String normalized = s.trim();
 		
 		if ( normalized.startsWith(VARIABLE_PREFIX) ) {
-			return VariableImpl.of(removePrefix(normalized));
+			return Variable.of(removePrefix(normalized));
 		}
 		
-		return ResourceImpl.of(normalized);  
+		return Resource.of(normalized);  
 	}
 	
 	private static String removePrefix(String s) {

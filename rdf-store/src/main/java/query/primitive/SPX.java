@@ -3,16 +3,16 @@ package query.primitive;
 import java.util.HashSet;
 import java.util.Set;
 
-import query.Constant;
 import query.QueryTarget;
 import query.Resolution;
 import query.Substitution;
 import query.Variable;
-import core.TripleIter;
+import core.Resource;
+import core.Triple;
 
-public class SPX extends AbstractPrimitiveQuery<Constant,Constant,Variable> {
+public class SPX extends AbstractPrimitiveQuery<Resource,Resource,Variable> {
 	
-	public SPX(Constant s, Constant p, Variable o) {
+	public SPX(Resource s, Resource p, Variable o) {
 		super(s, p, o);
 	}
 	
@@ -20,9 +20,8 @@ public class SPX extends AbstractPrimitiveQuery<Constant,Constant,Variable> {
 	public Resolution solve(QueryTarget target) {
 		Set<Substitution> res = new HashSet<>();
 
-		for (TripleIter it = target.listSPX(s, p); it.hasNext(); ) {
-			Constant constant = it.next().getObject();
-			res.add( new Substitution(o, constant) ); 
+		for ( final Triple t : target.listSPX(s, p) ) {
+			res.add( new Substitution(o, t.getObject()) ); 
 		}
 
 		return new Resolution(res);

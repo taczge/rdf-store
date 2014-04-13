@@ -1,27 +1,30 @@
 package query;
 
-import core.TripleIter;
+import java.util.Collection;
+
+import core.Resource;
+import core.Triple;
 
 
 public interface QueryTarget {
 
-	boolean contains(Constant s, Constant p, Constant o);
+	boolean contains(Resource s, Resource p, Resource o);
 	
-	TripleIter listXPO(Constant p, Constant o);
-	TripleIter listSXO(Constant s, Constant o);
-	TripleIter listSPX(Constant s, Constant p);
+	Collection<Triple> listXPO(Resource p, Resource o);
+	Collection<Triple> listSXO(Resource s, Resource o);
+	Collection<Triple> listSPX(Resource s, Resource p);
 	
-	TripleIter listSXY(Constant s);
-	TripleIter listXPY(Constant p);
-	TripleIter listXYO(Constant o);
-	TripleIter listSXX(Constant s);
-	TripleIter listXPX(Constant p);
-	TripleIter listXXO(Constant o);
+	Collection<Triple> listSXY(Resource s);
+	Collection<Triple> listXPY(Resource p);
+	Collection<Triple> listXYO(Resource o);
+	Collection<Triple> listSXX(Resource s);
+	Collection<Triple> listXPX(Resource p);
+	Collection<Triple> listXXO(Resource o);
 	
-	TripleIter listXYZ();
-	TripleIter listXXY();
-	TripleIter listXYY();
-	TripleIter listXYX();
-	TripleIter listXXX();
+	Collection<Triple> listXYZ();
+	Collection<Triple> listXXY();
+	Collection<Triple> listXYY();
+	Collection<Triple> listXYX();
+	Collection<Triple> listXXX();
 
 }

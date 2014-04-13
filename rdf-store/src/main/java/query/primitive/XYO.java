@@ -3,17 +3,16 @@ package query.primitive;
 import java.util.HashSet;
 import java.util.Set;
 
-import query.Constant;
 import query.QueryTarget;
 import query.Resolution;
 import query.Substitution;
 import query.Variable;
+import core.Resource;
 import core.Triple;
-import core.TripleIter;
 
-public class XYO extends AbstractPrimitiveQuery<Variable,Variable,Constant> {
+public class XYO extends AbstractPrimitiveQuery<Variable,Variable,Resource> {
 	
-	public XYO(Variable s, Variable p, Constant o) {
+	public XYO(Variable s, Variable p, Resource o) {
 		super(s, p, o);
 	}
 
@@ -21,9 +20,7 @@ public class XYO extends AbstractPrimitiveQuery<Variable,Variable,Constant> {
 	public Resolution solve(QueryTarget target) {
 		Set<Substitution> substitutions = new HashSet<>();
 		
-		for ( TripleIter it = target.listXYO(o); it.hasNext(); ) {
-			Triple t = it.next();
-
+		for ( final Triple t : target.listXYO(o) ) {
 			Substitution subs = new Substitution();
 			subs.put(s, t.getSubject());
 			subs.put(p, t.getPredicate());

@@ -8,7 +8,6 @@ import query.Resolution;
 import query.Substitution;
 import query.Variable;
 import core.Triple;
-import core.TripleIter;
 
 public class XXY extends AbstractPrimitiveQuery<Variable,Variable,Variable> {
 
@@ -20,9 +19,7 @@ public class XXY extends AbstractPrimitiveQuery<Variable,Variable,Variable> {
 	public Resolution solve(QueryTarget target) {
 		Set<Substitution> substitutions = new HashSet<>();
 		
-		for ( TripleIter it = target.listXXY(); it.hasNext(); ) {
-			Triple t = it.next();
-
+		for ( final Triple t : target.listXXY() ) {
 			Substitution subs = new Substitution();
 			subs.put(s, t.getSubject());
 			subs.put(o, t.getObject());

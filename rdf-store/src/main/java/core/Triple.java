@@ -1,16 +1,13 @@
 package core;
 
+
 public class Triple {
 
 	private final Resource subject;
 	private final Resource predicate;
 	private final Resource object;
 	
-	public static final Triple of(Resource s, Resource p, Resource o) {
-		return new Triple(s, p, o);
-	}
-
-	private Triple(Resource subject, Resource predicate, Resource object) {
+	public Triple(Resource subject, Resource predicate, Resource object) {
 		super();
 		this.subject = subject;
 		this.predicate = predicate;
@@ -78,7 +75,19 @@ public class Triple {
 
 	@Override
 	public String toString() {
-		return String.format("%s,%s,%s", subject, predicate, object);
+		return String.format("%s %s %s", subject, predicate, object);
+	}
+	
+	public boolean equalsSubject(Resource s) {
+		return subject.equals(s);
+	}
+	
+	public boolean equalsPredicate(Resource p) {
+		return predicate.equals(p);
+	}
+	
+	public boolean equalsObject(Resource o) {
+		return object.equals(o);
 	}
 		
 }
