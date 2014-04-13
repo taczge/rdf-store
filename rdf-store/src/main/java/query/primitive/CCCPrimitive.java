@@ -4,7 +4,7 @@ import query.Constant;
 import query.PrimitiveQuery;
 import query.QueryTarget;
 import query.Resolution;
-import query.Substitusion;
+import query.Substitution;
 
 public class CCCPrimitive implements PrimitiveQuery {
 	
@@ -76,7 +76,7 @@ public class CCCPrimitive implements PrimitiveQuery {
 	}
 
 	@Override
-	public PrimitiveQuery apply(Substitusion substitusion) {
+	public PrimitiveQuery apply(Substitution substitusion) {
 		return this;
 	}
 

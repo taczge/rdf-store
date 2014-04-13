@@ -10,24 +10,24 @@ public class Resolution {
 	public static final Resolution FAILURE = new Resolution();
 	
 	public static Resolution of(Variable var, Iterator<? extends Constant> it) {
-		Set<Substitusion> subs = new HashSet<>();
+		Set<Substitution> subs = new HashSet<>();
 		
 		while ( it.hasNext() ) {
-			subs.add( new Substitusion(var, it.next()) );
+			subs.add( new Substitution(var, it.next()) );
 		}
 		
 		return new Resolution(subs);
 	}
 	
-	private Set<Substitusion> substitusions;
+	private Set<Substitution> substitusions;
 
-	public Resolution(Set<Substitusion> substitusions) {
+	public Resolution(Set<Substitution> substitusions) {
 		super();
 		this.substitusions = substitusions;
 	}
 	
 	public Resolution() {
-		this(new HashSet<Substitusion>());
+		this(new HashSet<Substitution>());
 	}
 
 	@Override

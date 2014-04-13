@@ -3,24 +3,24 @@ package query;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Substitusion {
+public class Substitution {
 	
-	private Map<Variable,Constant> substitutions;
+	private Map<Variable, Constant> substitutions;
 
-	public Substitusion(Map<Variable, Constant> substitutions) {
+	public Substitution(Map<Variable, Constant> substitutions) {
 		super();
 		this.substitutions = substitutions;
 	}
 	
-	public Substitusion() {
-		this( new HashMap<Variable,Constant>() );
+	public Substitution() {
+		this( new HashMap<Variable, Constant>() );
 	}
 	
-	public Substitusion(Variable v, Constant c) {
+	public Substitution(Variable v, Constant c) {
 		this();
 		substitutions.put(v, c);		
 	}
-
+	
 	public boolean contains(Variable var) {
 		return substitutions.containsKey(var);
 	}

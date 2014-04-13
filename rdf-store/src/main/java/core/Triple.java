@@ -17,6 +17,18 @@ public class Triple {
 		this.object = object;
 	}
 
+	public Resource getSubject() {
+		return subject;
+	}
+
+	public Resource getPredicate() {
+		return predicate;
+	}
+
+	public Resource getObject() {
+		return object;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

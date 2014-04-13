@@ -1,12 +1,15 @@
 package query.primitive;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import query.Constant;
-import query.ConstantIter;
 import query.PrimitiveQuery;
 import query.QueryTarget;
 import query.Resolution;
-import query.Substitusion;
+import query.Substitution;
 import query.Variable;
+import core.TripleIter;
 
 public class VCCPrimitive implements PrimitiveQuery {
 	
@@ -74,13 +77,18 @@ public class VCCPrimitive implements PrimitiveQuery {
 
 	@Override
 	public Resolution solve(QueryTarget target) {
-		ConstantIter it = target.listXPO(p, o);
+		Set<Substitution> res = new HashSet<>();
 
-		return Resolution.of(s, it);
+		for (TripleIter it = target.listXPO(p, o); it.hasNext(); ) {
+			Constant constant = it.next().getSubject();
+			res.add( new Substitution(s, constant) ); 
+		}
+
+		return new Resolution(res);
 	}
 
 	@Override
-	public PrimitiveQuery apply(Substitusion substitusion) {
+	public PrimitiveQuery apply(Substitution substitusion) {
 		if ( substitusion.contains(s) ) {
 			Constant applied = substitusion.getAssignedValue(s);
 
