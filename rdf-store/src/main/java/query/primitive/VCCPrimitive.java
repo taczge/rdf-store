@@ -74,7 +74,7 @@ public class VCCPrimitive implements PrimitiveQuery {
 
 	@Override
 	public Resolution solve(QueryTarget target) {
-		ConstantIter it = target.listSubject(p, o);
+		ConstantIter it = target.listXPO(p, o);
 
 		return Resolution.of(s, it);
 	}

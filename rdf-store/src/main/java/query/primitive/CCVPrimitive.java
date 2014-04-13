@@ -74,7 +74,7 @@ public class CCVPrimitive implements PrimitiveQuery {
 
 	@Override
 	public Resolution solve(QueryTarget target) {
-		ConstantIter it = target.listObject(s, p);
+		ConstantIter it = target.listSPX(s, p);
 
 		return Resolution.of(o, it);
 	}
