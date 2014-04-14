@@ -9,7 +9,6 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import query.primitive.SPO;
 import query.primitive.SXY;
 import query.primitive.XYO;
 import core.Resource;
@@ -27,19 +26,6 @@ public class QueryTest {
 	@Before
 	public void setUp() throws Exception {
 	}
-	
-	@Test
-	public void apply_substitution() throws Exception {
-		Query sut = new Query( new XYO(x, y, c), new SXY(c, y, x) );
-		
-		Substitution sub = new Substitution();
-		sub.put(x, a);
-		sub.put(y, b);
-		
-		Query expected = new Query(new SPO(a, b, c), new SPO(c, b, a));
-				
-		assertThat(sut.apply(sub), is(expected));
-	}
 
 	@Test
 	public void apply_() throws Exception {
@@ -55,23 +41,15 @@ public class QueryTest {
 		
 		Resolution r = Resolution.of(s, t);
 		
-		Set<Query> expected = new HashSet<>();
-		expected.add(new Query(new SPO(a, b, c), new SPO(c, b, a)));
-		expected.add(new Query(new SPO(b, c, c), new SPO(c, c, b)));
-				
-		assertThat(sut.apply(r), is(expected));
-	}
-	
-	@Test
-	public void toTriple_() throws Exception {
-		Query sut = new Query(new SPO(a, b, c), new SPO(c, b, a));
-		
 		Set<Triple> expected = new HashSet<>();
 		expected.add(new Triple(a, b, c));
 		expected.add(new Triple(c, b, a));
-		
-		assertThat(sut.toTriple(), is(expected));
+		expected.add(new Triple(b, c, c));
+		expected.add(new Triple(c, c, b));
+				
+		assertThat(sut.apply(r), is(expected));
 	}
+
 }
 
 
