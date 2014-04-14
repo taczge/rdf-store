@@ -85,7 +85,7 @@ implements PrimitiveQuery {
 	@Override
 	public Triple toTriple() {
 		throw new UnsupportedOperationException(
-				this.getClass() + "is not supported toTriple.");
+				this.getClass() + " is not supported toTriple.");
 	}
 	
 }

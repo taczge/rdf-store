@@ -1,5 +1,10 @@
 package experiment;
 
+import query.Query;
+import query.QueryParser;
+import rule.Rule;
+import rule.RuleTarget;
+import rule.Rules;
 import core.Resource;
 import core.Triples;
 
@@ -27,7 +32,7 @@ public class SATSolver {
 	private static final Resource q3  = Resource.of("q3");
 	
 	private static final Resource at  = Resource.of("ATOM");
-	private static final Resource not = Resource.of("NEG");
+	private static final Resource not = Resource.of("NOT");
 	private static final Resource and = Resource.of("AND");
 	private static final Resource or  = Resource.of("OR");
 	
@@ -55,6 +60,32 @@ public class SATSolver {
 		
 		target.add(c15, at, q3);
 		
+		Query head1 = QueryParser.parse(
+				"1,AND,?v1." + "?v1,?v2,?v3." + "?v2,?v21,?v22." + "?v3,?v31,?v32.");
+		Query body1 = QueryParser.parse(
+				"1,?v21,?v22." + "1,?v31,?v32.");
+		
+		Query head2 = QueryParser.parse(
+				"0,OR,?v1." + "?v1,?v2,?v3." + "?v2,?v21,?v22." + "?v3,?v31,?v32.");
+		Query body2 = QueryParser.parse(
+				"1,?v21,?v22." + "1,?v31,?v32.");
+		
+		Query head3 = QueryParser.parse("1,NOT,?v1." + "?v1,?v11,?v12.");
+		Query body3 = QueryParser.parse("0,?v11,?v12.");
+
+		Query head4 = QueryParser.parse("0,NOT,?v1." + "?v1,?v11,?v12.");
+		Query body4 = QueryParser.parse("1,?v11,?v12.");
+		
+		Rules rule = new Rules(
+				new Rule(head1, body1),
+				new Rule(head2, body2),
+				new Rule(head3, body3),
+				new Rule(head4, body4));
+		
+		RuleTarget t = rule.apply(target);
+		
+		Query query = QueryParser.parse("1,ATOM,?x.0,ATOM,?x.");
+		System.out.println( query.solve(t) );
 	}
 	
 }

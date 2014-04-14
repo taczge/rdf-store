@@ -64,7 +64,7 @@ public class Query {
 			answer.addAll( this.tail().__solve(s, target) );
 		}
 		
-		return answer;
+		return answer.isEmpty() ? Resolution.FAILURE : answer;
 	}
 	
 	public Set<Query> apply(Resolution r) {

@@ -5,8 +5,8 @@ import io.RDFFileReader;
 import java.io.File;
 
 import query.Query;
+import query.QueryParser;
 import query.QueryTarget;
-import query.primitive.PrimitiveQueryParser;
 
 import com.google.common.base.Joiner;
 
@@ -22,16 +22,9 @@ public class QueryExperiment {
 	public static void main(String[] args) {
 		QueryTarget target = load();
 		
-		Query q = new Query(
-				PrimitiveQueryParser.parse("?x,rdfs:subClassOf,?y"),
-				PrimitiveQueryParser.parse("?y,rdfs:subClassOf,?z"));
-
-		/*
-		Query q = new Query(
-				PrimitiveQueryParser.parse("?x,?y,?z"),
-				PrimitiveQueryParser.parse("?s,?p,?o"));
-		 */
-
+		Query q = QueryParser.parse("?x,rdfs:subClassOf,?y.?y,rdfs:subClassOf,?z.");
+		//Query q = QueryParser.parse("?x,?y,?z.?s,?p,?o.");
+		
 		System.out.println(q);
 		System.out.println(q.solve(target));
 	}

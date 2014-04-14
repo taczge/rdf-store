@@ -10,39 +10,23 @@ public class Rule {
 	
 	private final Query head;
 	private final Query body;
-	private final RuleTarget target;
 
-	public Rule(Query head, Query body, RuleTarget target) {
+	public Rule(Query head, Query body) {
 		super();
 		
 		// TODO: head <= body でないときのエラー処理
 		this.head = head;
 		this.body = body;
-		this.target = target;
 	}
 	
-	public RuleTarget execute() {
-		while ( true ) {
-			Set<Triple> triples = executeOnce();
-
-			if ( triples.isEmpty() ) {
-				break;
-			}
-			
-			target.addAll(triples);
-		}
-		
-		return target;
-	}
-	
-	private Set<Triple> executeOnce() {
+	public Set<Triple> apply(RuleTarget target) {
 		Set<Query> solved = body.apply( head.solve(target) );
 		
 		Set<Triple> triples = new HashSet<>( solved.size() );
 		for ( final Query q : solved ) {
 			triples.addAll( q.toTriple() );
 		}
-		
+
 		return removeAll(triples, target); 
 	}
 	

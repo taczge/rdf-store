@@ -11,14 +11,14 @@ public class Resolution implements Iterable<Substitution> {
 	public static final Resolution SUCCESS = new Resolution() {
 		@Override
 		public String toString() {
-			return "SUCCESS";
+			return "Resolution.SUCCESS";
 		}
 	};
 
 	public static final Resolution FAILURE = new Resolution() {
 		@Override
 		public String toString() {
-			return "FAILURE";
+			return "Resolution.FAILURE";
 		}
 		
 		@Override

@@ -5,7 +5,7 @@ import io.RDFFileReader;
 import java.io.File;
 
 import query.Query;
-import query.primitive.PrimitiveQueryParser;
+import query.QueryParser;
 import rule.Rule;
 import rule.RuleTarget;
 
@@ -23,16 +23,13 @@ public class RuleExperiment {
 	public static void main(String[] args) {
 		RuleTarget target = load();
 		
-		Query head = new Query(
-				PrimitiveQueryParser.parse("?x,rdfs:subClassOf,?y"));
-		Query body = new Query(
-				PrimitiveQueryParser.parse("?x,rdfs:subClassOf,?x"),
-				PrimitiveQueryParser.parse("?y,rdfs:subClassOf,?y"));
+		Query head = QueryParser.parse("?x,rdfs:subClassOf,?y.");
+		Query body = QueryParser.parse("?x,rdfs:subClassOf,?x.?y,rdfs:subClassOf,?y.");
 		
-		Rule rule = new Rule(head, body, target);
+		Rule rule = new Rule(head, body);
 
 		System.out.println(rule);
-		System.out.println(rule.execute());
+		System.out.println(rule.apply(target));
 	}
 	
 }
