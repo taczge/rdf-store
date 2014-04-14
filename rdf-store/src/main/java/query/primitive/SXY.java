@@ -27,7 +27,7 @@ public class SXY extends AbstractPrimitiveQuery<Resource,Variable,Variable> {
 			substitutions.add(subs);
 		}
 
-		return new Resolution(substitutions);
+		return Resolution.of(substitutions);
 	}
 	
 }

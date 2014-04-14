@@ -27,7 +27,7 @@ public class XPY extends AbstractPrimitiveQuery<Variable,Resource,Variable> {
 			substitutions.add(subs);
 		}
 
-		return new Resolution(substitutions);
+		return Resolution.of(substitutions);
 	}
 	
 }

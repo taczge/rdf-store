@@ -23,7 +23,7 @@ public class XXX extends AbstractPrimitiveQuery<Variable,Variable,Variable> {
 			substitutions.add( new Substitution(s, t.getSubject()) );
 		}
 
-		return new Resolution(substitutions);
+		return Resolution.of(substitutions);
 	}
 
 }

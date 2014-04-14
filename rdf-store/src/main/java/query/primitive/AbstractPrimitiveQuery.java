@@ -74,8 +74,8 @@ implements PrimitiveQuery {
 	}
 	
 	@Override
-	public abstract Resolution solve(QueryTarget target);
-
+	abstract public Resolution solve(QueryTarget target);
+	
 	@Override
 	public PrimitiveQuery apply(Substitution sub) {
 		return PrimitiveQueryFactory.create( s.apply(sub), p.apply(sub), o.apply(sub) );

@@ -24,7 +24,7 @@ public class XPO extends AbstractPrimitiveQuery<Variable,Resource,Resource> {
 			res.add( new Substitution(s, t.getSubject()) ); 
 		}
 
-		return new Resolution(res);
+		return Resolution.of(res);
 	}
 
 }

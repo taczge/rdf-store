@@ -28,7 +28,7 @@ public class XYO extends AbstractPrimitiveQuery<Variable,Variable,Resource> {
 			substitutions.add(subs);
 		}
 
-		return new Resolution(substitutions);
+		return Resolution.of(substitutions);
 	}
 
 }

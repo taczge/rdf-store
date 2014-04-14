@@ -23,7 +23,7 @@ public class SXX extends AbstractPrimitiveQuery<Resource,Variable,Variable> {
 			substitutions.add( new Substitution(p, t.getPredicate()) );
 		}
 
-		return new Resolution(substitutions);
+		return Resolution.of(substitutions);
 	}
 	
 }

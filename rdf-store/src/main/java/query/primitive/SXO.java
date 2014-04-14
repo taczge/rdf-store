@@ -24,7 +24,7 @@ public class SXO extends AbstractPrimitiveQuery<Resource,Variable,Resource> {
 			res.add( new Substitution(p, t.getPredicate()) ); 
 		}
 
-		return new Resolution(res);
+		return Resolution.of(res);
 	}
 
 }

@@ -44,9 +44,10 @@ public class Variable implements Token {
 		return true;
 	}
 
+	private static final String PREFIX = "?";
 	@Override
 	public String toString() {
-		return idendifier;
+		return PREFIX + idendifier;
 	}
 
 	@Override

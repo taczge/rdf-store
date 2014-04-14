@@ -24,7 +24,7 @@ public class SPX extends AbstractPrimitiveQuery<Resource,Resource,Variable> {
 			res.add( new Substitution(o, t.getObject()) ); 
 		}
 
-		return new Resolution(res);
+		return Resolution.of(res);
 	}
 
 }

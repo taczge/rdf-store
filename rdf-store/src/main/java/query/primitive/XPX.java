@@ -23,7 +23,7 @@ public class XPX extends AbstractPrimitiveQuery<Variable,Resource,Variable> {
 			substitutions.add( new Substitution(s, t.getSubject()) );
 		}
 
-		return new Resolution(substitutions);
+		return Resolution.of(substitutions);
 	}
 	
 }

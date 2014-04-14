@@ -24,7 +24,7 @@ public class XXO extends AbstractPrimitiveQuery<Variable,Variable,Resource> {
 			substitutions.add( new Substitution(s, t.getSubject()) );
 		}
 
-		return new Resolution(substitutions);
+		return Resolution.of(substitutions);
 	}
 
 }

@@ -28,7 +28,7 @@ public class XYZ extends AbstractPrimitiveQuery<Variable,Variable,Variable> {
 			substitutions.add(subs);
 		}
 
-		return new Resolution(substitutions);
+		return Resolution.of(substitutions);
 	}
 
 }
