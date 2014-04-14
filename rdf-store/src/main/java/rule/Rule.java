@@ -20,7 +20,7 @@ public class Rule {
 	
 	public Set<Triple> apply(RuleTarget target) {
 		Set<Triple> triples = body.apply( head.solve(target) );
-		
+
 		return removeAll(triples, target); 
 	}
 	
