@@ -1,9 +1,13 @@
 package query;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
+
+import core.Triple;
 
 public class Query {
 	
@@ -20,10 +24,12 @@ public class Query {
 	}
 	
 	private boolean hasTail() {
+		// TODO: 実行時例外を投げる
 		return primitives.size() >= 2;
 	}
 	
 	private PrimitiveQuery head() {
+		// TODO: 実行時例外を投げる
 		return primitives.get(0);
 	}
 	
@@ -31,7 +37,7 @@ public class Query {
 		return new Query( primitives.subList(1, primitives.size()) );
 	}
 	
-	private Query apply(Substitution substitution) {
+	public Query apply(Substitution substitution) {
 		List<PrimitiveQuery> applied = new LinkedList<>();
 		
 		for ( final PrimitiveQuery primitive : primitives ) {
@@ -49,8 +55,6 @@ public class Query {
 		Resolution current = this.apply(previous).head().solve(target);
 		Resolution next    = current.concat(previous);
 		
-		System.out.println("   __solve:" + this + " " + previous);
-		
 		if ( !hasTail() ) {
 			return next;
 		}
@@ -61,6 +65,26 @@ public class Query {
 		}
 		
 		return answer;
+	}
+	
+	public Set<Query> apply(Resolution r) {
+		Set<Query> result = new HashSet<>();
+		
+		for ( final Substitution s : r) {
+			result.add(this.apply(s));
+		}
+		
+		return result;
+	}
+	
+	public Set<Triple> toTriple() {
+		Set<Triple> triples = new HashSet<>();
+		
+		for ( final PrimitiveQuery p : primitives ) {
+			triples.add(p.toTriple());
+		}
+		
+		return triples;
 	}
 
 	@Override

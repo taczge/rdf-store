@@ -103,6 +103,10 @@ public class Resolution implements Iterable<Substitution> {
 		return substitutions.size();
 	}
 	
+	public void add(Substitution s) {
+		substitutions.add(s);
+	}
+	
 	public void addAll(Resolution other) {
 		substitutions.addAll( other.substitutions );
 	}

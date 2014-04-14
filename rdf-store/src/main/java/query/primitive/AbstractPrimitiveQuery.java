@@ -5,6 +5,7 @@ import query.QueryTarget;
 import query.Resolution;
 import query.Substitution;
 import query.Token;
+import core.Triple;
 
 public abstract class
 AbstractPrimitiveQuery<T1 extends Token,T2 extends Token,T3 extends Token>
@@ -79,6 +80,12 @@ implements PrimitiveQuery {
 	@Override
 	public PrimitiveQuery apply(Substitution sub) {
 		return PrimitiveQueryFactory.create( s.apply(sub), p.apply(sub), o.apply(sub) );
+	}
+	
+	@Override
+	public Triple toTriple() {
+		throw new UnsupportedOperationException(
+				this.getClass() + "is not supported toTriple.");
 	}
 	
 }
