@@ -16,7 +16,7 @@ public class PrimitiveQueryParser {
 		String[] tokens = exp.split(",");
 		
 		if ( tokens.length != 3 ) {
-			throw new IllegalArgumentException("Invalid Primitive: " + exp);
+			throw new IllegalArgumentException("invalid primitive expression: " + exp);
 		}
 		
 		return parse(tokens[0], tokens[1], tokens[2]);

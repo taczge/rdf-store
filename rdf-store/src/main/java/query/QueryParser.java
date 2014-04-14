@@ -8,7 +8,7 @@ import query.primitive.PrimitiveQueryParser;
 public class QueryParser {
 
 	public static Query parse(String exp) {
-		String[] primitives = exp.split("\\.");
+		String[] primitives = exp.trim().split("\\.");
 		
 		List<PrimitiveQuery> query = new LinkedList<>();
 		for (int i = 0; i < primitives.length; i++ ) {

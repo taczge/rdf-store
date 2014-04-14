@@ -4,9 +4,8 @@ import io.RDFFileReader;
 
 import java.io.File;
 
-import query.Query;
-import query.QueryParser;
 import rule.Rule;
+import rule.RuleParser;
 import rule.RuleTarget;
 
 import com.google.common.base.Joiner;
@@ -23,13 +22,11 @@ public class RuleExperiment {
 	public static void main(String[] args) {
 		RuleTarget target = load();
 		
-		Query head = QueryParser.parse("?x,rdfs:subClassOf,?y.");
-		Query body = QueryParser.parse("?x,rdfs:subClassOf,?x.?y,rdfs:subClassOf,?y.");
-		
-		Rule rule = new Rule(head, body);
+		Rule rule = RuleParser.parse(
+				"?x,rdfs:subClassOf,?y.=>?x,rdfs:subClassOf,?x.?y,rdfs:subClassOf,?y.");
 
 		System.out.println(rule);
-		System.out.println(rule.apply(target));
+		System.out.println(Joiner.on(System.lineSeparator()).join(rule.apply(target)));
 	}
 	
 }
