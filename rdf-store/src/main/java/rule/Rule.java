@@ -4,23 +4,38 @@ import java.util.HashSet;
 import java.util.Set;
 
 import query.Query;
-import query.QueryTarget;
 import core.Triple;
 
 public class Rule {
 	
 	private final Query head;
 	private final Query body;
+	private final RuleTarget target;
 
-	public Rule(Query head, Query body) {
+	public Rule(Query head, Query body, RuleTarget target) {
 		super();
 		
 		// TODO: head <= body でないときのエラー処理
 		this.head = head;
 		this.body = body;
+		this.target = target;
 	}
 	
-	public Set<Triple> execute(QueryTarget target) {
+	public RuleTarget execute() {
+		while ( true ) {
+			Set<Triple> triples = executeOnce();
+
+			if ( triples.isEmpty() ) {
+				break;
+			}
+			
+			target.addAll(triples);
+		}
+		
+		return target;
+	}
+	
+	private Set<Triple> executeOnce() {
 		Set<Query> solved = body.apply( head.solve(target) );
 		
 		Set<Triple> triples = new HashSet<>( solved.size() );
@@ -28,9 +43,21 @@ public class Rule {
 			triples.addAll( q.toTriple() );
 		}
 		
-		return triples; 
+		return removeAll(triples, target); 
 	}
-
+	
+	private Set<Triple> removeAll(Set<Triple> src, RuleTarget target) {
+		Set<Triple> removed = new HashSet<>();
+		
+		for ( final Triple t : src) {
+			if ( !target.contains(t) ) {
+				removed.add(t);
+			}
+		}
+		
+		return removed;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

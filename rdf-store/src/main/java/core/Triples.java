@@ -5,11 +5,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import query.QueryTarget;
+import rule.RuleTarget;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
-public class Triples implements QueryTarget {
+public class Triples implements QueryTarget, RuleTarget {
 
 	private Multimap<Resource,Triple> stmap;
 	private Multimap<Resource,Triple> ptmap;
@@ -216,6 +217,18 @@ public class Triples implements QueryTarget {
 	@Override
 	public Collection<Triple> listXXX() {
 		return sameSPO;
+	}
+
+	@Override
+	public boolean contains(Triple t) {
+		return contains( t.getSubject(), t.getPredicate(), t.getObject() );
+	}
+	
+	@Override
+	public void addAll(Collection<Triple> ts) {
+		for ( final Triple t : ts) {
+			add(t);
+		}
 	}
 
 }

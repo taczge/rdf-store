@@ -5,15 +5,15 @@ import io.RDFFileReader;
 import java.io.File;
 
 import query.Query;
-import query.QueryTarget;
 import query.primitive.PrimitiveQueryParser;
 import rule.Rule;
+import rule.RuleTarget;
 
 import com.google.common.base.Joiner;
 
 public class RuleExperiment {
 	
-	public static QueryTarget load() {
+	public static RuleTarget load() {
 		final String path = Joiner.on(File.separator).join( 
 				System.getProperty("user.dir"), "src", "main", "resources", "onto.rdf");
 
@@ -21,7 +21,7 @@ public class RuleExperiment {
 	}
 
 	public static void main(String[] args) {
-		QueryTarget target = load();
+		RuleTarget target = load();
 		
 		Query head = new Query(
 				PrimitiveQueryParser.parse("?x,rdfs:subClassOf,?y"));
@@ -29,10 +29,10 @@ public class RuleExperiment {
 				PrimitiveQueryParser.parse("?x,rdfs:subClassOf,?x"),
 				PrimitiveQueryParser.parse("?y,rdfs:subClassOf,?y"));
 		
-		Rule rule = new Rule(head, body);
+		Rule rule = new Rule(head, body, target);
 
 		System.out.println(rule);
-		System.out.println(Joiner.on("\n").join(rule.execute(target)));
+		System.out.println(rule.execute());
 	}
 	
 }
