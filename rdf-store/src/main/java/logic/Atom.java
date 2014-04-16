@@ -60,4 +60,9 @@ public class Atom implements Proposition {
 		return triples;
 	}
 
+	@Override
+	public Proposition simplify() {
+		return this;
+	}
+
 }

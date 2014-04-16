@@ -8,18 +8,18 @@ import core.Triple;
 
 public class Not implements Proposition {
 
-	private final Proposition p;
+	private final Proposition negatee;
 
-	public Not(Proposition p) {
+	public Not(Proposition negatee) {
 		super();
-		this.p = p;
+		this.negatee = negatee;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((p == null) ? 0 : p.hashCode());
+		result = prime * result + ((negatee == null) ? 0 : negatee.hashCode());
 		return result;
 	}
 
@@ -35,11 +35,11 @@ public class Not implements Proposition {
 			return false;
 		}
 		Not other = (Not) obj;
-		if (p == null) {
-			if (other.p != null) {
+		if (negatee == null) {
+			if (other.negatee != null) {
 				return false;
 			}
-		} else if (!p.equals(other.p)) {
+		} else if (!negatee.equals(other.negatee)) {
 			return false;
 		}
 		return true;
@@ -47,7 +47,7 @@ public class Not implements Proposition {
 
 	@Override
 	public String toString() {
-		return String.format( "(not %s)", p );
+		return String.format( "(not %s)", negatee );
 	}
 	
 	private static final Resource not = Resource.of("NOT");
@@ -57,9 +57,20 @@ public class Not implements Proposition {
 		
 		Resource fresh = issuer.createFresh(); 
 		triples.add( new Triple(previous, not, fresh) );
-		triples.addAll( p.toTriples(issuer, fresh) );
+		triples.addAll( negatee.toTriples(issuer, fresh) );
 		
 		return triples;
+	}
+
+	@Override
+	public Proposition simplify() {
+		Proposition n = negatee.simplify();
+		
+		if ( n instanceof Not ) {
+			return ((Not) n).negatee;
+		}
+		
+		return new Not(n);
 	}
 
 }

@@ -76,5 +76,17 @@ public class And implements Proposition {
 		
 		return triples;
 	}
+
+	@Override
+	public Proposition simplify() {
+		Proposition l = left.simplify();
+		Proposition r = right.simplify();
+		
+		if ( l.equals(r) ) {
+			return l;
+		}
+		
+		return new And(l, r);
+	}
 	
 }
