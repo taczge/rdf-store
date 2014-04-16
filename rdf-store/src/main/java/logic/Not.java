@@ -73,4 +73,10 @@ public class Not implements Proposition {
 		return new Not(n);
 	}
 
+	@Override
+	public Proposition normalize() {
+		return new Not( negatee.normalize() );
+	}
+	
+
 }

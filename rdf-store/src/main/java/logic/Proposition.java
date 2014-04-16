@@ -9,5 +9,6 @@ public interface Proposition {
 
 	Set<Triple> toTriples(ResourceIssuer issuer, Resource previous);
 	Proposition simplify();
+	Proposition normalize();
 
 }

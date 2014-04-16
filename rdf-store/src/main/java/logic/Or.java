@@ -88,5 +88,13 @@ public class Or implements Proposition {
 		
 		return new Or(l, r);
 	}
-	
+
+	@Override
+	public Proposition normalize() {
+		return new Not(
+				new And(
+						new Not(left.normalize()),
+						new Not(right.normalize())));
+	}
+
 }

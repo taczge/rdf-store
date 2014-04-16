@@ -88,5 +88,10 @@ public class And implements Proposition {
 		
 		return new And(l, r);
 	}
+
+	@Override
+	public Proposition normalize() {
+		return new And( left.normalize(), right.normalize() );
+	}
 	
 }

@@ -65,4 +65,9 @@ public class Atom implements Proposition {
 		return this;
 	}
 
+	@Override
+	public Proposition normalize() {
+		return this;
+	}
+	
 }
