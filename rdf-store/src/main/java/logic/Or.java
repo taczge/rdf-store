@@ -1,5 +1,11 @@
 package logic;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import core.Resource;
+import core.Triple;
+
 public class Or implements Proposition {
 
 	private final Proposition left;
@@ -52,6 +58,23 @@ public class Or implements Proposition {
 	@Override
 	public String toString() {
 		return String.format( "(or %s %s)", left, right);
+	}
+	
+	public static final Resource or = Resource.of("OR");
+	@Override
+	public Set<Triple> toTriples(ResourceIssuer issuer, Resource previous) {
+		Set<Triple> triples = new HashSet<>();
+		
+		Resource thisLabel = issuer.createFresh();
+		triples.add( new Triple(previous, or, thisLabel) );
+		
+		Resource leftLabel  = issuer.createFresh();
+		Resource rightLabel = issuer.createFresh();
+		triples.add( new Triple(thisLabel, leftLabel, rightLabel) );
+		triples.addAll( left.toTriples(issuer, leftLabel) );
+		triples.addAll( right.toTriples(issuer, rightLabel) );
+		
+		return triples;
 	}
 	
 }

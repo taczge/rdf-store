@@ -31,6 +31,12 @@ public class Triples implements QueryTarget, RuleTarget {
 		sameSO = new HashSet<>();
 		sameSPO = new HashSet<>();
 	}
+	
+	public Triples(Collection<Triple> triples) {
+		this();
+		
+		addAll(triples);
+	}
 
 	// stmap だけを使う
 	@Override

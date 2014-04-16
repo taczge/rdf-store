@@ -1,5 +1,11 @@
 package logic;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import core.Resource;
+import core.Triple;
+
 public class Not implements Proposition {
 
 	private final Proposition p;
@@ -42,6 +48,18 @@ public class Not implements Proposition {
 	@Override
 	public String toString() {
 		return String.format( "(not %s)", p );
+	}
+	
+	private static final Resource not = Resource.of("NOT");
+	@Override
+	public Set<Triple> toTriples(ResourceIssuer issuer, Resource previous) {
+		Set<Triple> triples = new HashSet<>();
+		
+		Resource fresh = issuer.createFresh(); 
+		triples.add( new Triple(previous, not, fresh) );
+		triples.addAll( p.toTriples(issuer, fresh) );
+		
+		return triples;
 	}
 
 }

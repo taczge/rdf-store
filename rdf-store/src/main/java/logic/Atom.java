@@ -1,5 +1,11 @@
 package logic;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import core.Resource;
+import core.Triple;
+
 public class Atom implements Proposition {
 	
 	private final String name;
@@ -42,6 +48,16 @@ public class Atom implements Proposition {
 	@Override
 	public String toString() {
 		return name;
+	}
+	
+	private static final Resource atom = Resource.of("ATOM");
+	@Override
+	public Set<Triple> toTriples(ResourceIssuer issuer, Resource previous) {
+		Set<Triple> triples = new HashSet<>(1);
+		
+		triples.add( new Triple(previous, atom, Resource.of(name)) );
+		
+		return triples;
 	}
 
 }
