@@ -1,14 +1,17 @@
 package experiment;
 
+import solver.PLSATSolver;
 import solver.PLSATSolverImpl;
 
 public class SATSolverExperiment {
 	
 	private SATSolverExperiment() {};
 	
+	private static final PLSATSolver solver = new PLSATSolverImpl();
+	
 	private static void check(String exp) {
 		System.out.println(
-				String.format("%3s: %s", PLSATSolverImpl.check(exp), exp));
+				String.format("%3s: %s", solver.check(exp), exp));
 	}
 	
 	public static void main(String[] args) {

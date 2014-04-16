@@ -3,6 +3,7 @@ package logic;
 import java.util.HashSet;
 import java.util.Set;
 
+import solver.PLSATSolver;
 import core.Resource;
 import core.Triple;
 
@@ -50,13 +51,17 @@ public class Not implements Proposition {
 		return String.format( "(not %s)", negatee );
 	}
 	
-	private static final Resource not = Resource.of("NOT");
+	@Override
+	public Set<Triple> toTriples() {
+		return toTriples(new ResourceIssuerImpl(), PLSATSolver._1);
+	}
+
 	@Override
 	public Set<Triple> toTriples(ResourceIssuer issuer, Resource previous) {
 		Set<Triple> triples = new HashSet<>();
 		
 		Resource fresh = issuer.createFresh(); 
-		triples.add( new Triple(previous, not, fresh) );
+		triples.add( new Triple(previous, PLSATSolver.NOT, fresh) );
 		triples.addAll( negatee.toTriples(issuer, fresh) );
 		
 		return triples;
