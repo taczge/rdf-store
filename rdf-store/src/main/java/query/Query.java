@@ -5,11 +5,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import rule.Body;
+import rule.Head;
+
 import com.google.common.collect.Lists;
 
 import core.Triple;
 
-public class Query {
+public class Query implements Head, Body {
 	
 	private final List<PrimitiveQuery> primitives;
 	
@@ -37,7 +40,7 @@ public class Query {
 		return new Query( primitives.subList(1, primitives.size()) );
 	}
 	
-	public Query apply(Substitution substitution) {
+	private Query apply(Substitution substitution) {
 		List<PrimitiveQuery> applied = new LinkedList<>();
 		
 		for ( final PrimitiveQuery primitive : primitives ) {
@@ -67,26 +70,6 @@ public class Query {
 		return answer.isEmpty() ? Resolution.FAILURE : answer;
 	}
 	
-	public Set<Query> apply(Resolution r) {
-		Set<Query> result = new HashSet<>();
-		
-		for ( final Substitution s : r) {
-			result.add(this.apply(s));
-		}
-		
-		return result;
-	}
-	
-	public Set<Triple> toTriple() {
-		Set<Triple> triples = new HashSet<>();
-		
-		for ( final PrimitiveQuery p : primitives ) {
-			triples.add(p.toTriple());
-		}
-		
-		return triples;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -128,4 +111,26 @@ public class Query {
 
 		return sb.toString();
 	}
+
+	@Override
+	public Set<Triple> apply(Resolution r) {
+		Set<Triple> result = new HashSet<>();
+		
+		for ( final Substitution s : r) {
+			result.addAll( this.apply(s).toTriple() );
+		}
+		
+		return result;
+	}
+	
+	private Set<Triple> toTriple() {
+		Set<Triple> triples = new HashSet<>();
+		
+		for ( final PrimitiveQuery p : primitives ) {
+			triples.add(p.toTriple());
+		}
+		
+		return triples;
+	}
+
 }

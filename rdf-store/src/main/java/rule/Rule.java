@@ -3,15 +3,14 @@ package rule;
 import java.util.HashSet;
 import java.util.Set;
 
-import query.Query;
 import core.Triple;
 
 public class Rule {
 	
-	private final Query head;
-	private final Query body;
+	private final Head head;
+	private final Body body;
 
-	public Rule(Query head, Query body) {
+	public Rule(Head head, Body body) {
 		super();
 		
 		// TODO: head <= body でないときのエラー処理
@@ -20,12 +19,7 @@ public class Rule {
 	}
 	
 	public Set<Triple> apply(RuleTarget target) {
-		Set<Query> solved = body.apply( head.solve(target) );
-		
-		Set<Triple> triples = new HashSet<>( solved.size() );
-		for ( final Query q : solved ) {
-			triples.addAll( q.toTriple() );
-		}
+		Set<Triple> triples = body.apply( head.solve(target) );
 
 		return removeAll(triples, target); 
 	}
