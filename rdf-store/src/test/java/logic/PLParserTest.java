@@ -51,4 +51,17 @@ public class PLParserTest {
 		assertThat(PLParser.parse(exp), is(expected));
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void err_1() {
+		PLParser.parse("(p)");
+	}
+	
+	@Test
+	public void err_2() throws Exception {
+		String exp = "(and (not p) (or p (and p (not p";
+		Proposition expected = new And( new Not(p), new Or(p, new And(p, new Not(p))) );
+		
+		assertThat(PLParser.parse(exp), is(expected));
+	}
+
 }

@@ -44,6 +44,13 @@ public class PLParser {
 		}
 				
 		String[] token = trimmed.split("[  \\)]", 2);
+		final String atomExp = token[0];
+				
+		if ( atomExp.contains("(") || atomExp.contains(")") ) {
+			throw new IllegalArgumentException(
+					String.format("expression: %s is invalid syntax.", trimmed));
+		}
+		
 		Proposition atom = new Atom(token[0]);
 		
 		return token.length == 2 ? new ParseResult(atom, token[1]) : new ParseResult(atom, "");  
