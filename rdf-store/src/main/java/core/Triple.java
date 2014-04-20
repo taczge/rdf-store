@@ -79,7 +79,7 @@ public class Triple {
 
 	@Override
 	public String toString() {
-		return String.format("%s %s %s", subject, predicate, object);
+		return subject + "," + predicate + "," + object;
 	}
 	
 	public boolean equalsSubject(Resource s) {
@@ -92,6 +92,22 @@ public class Triple {
 	
 	public boolean equalsObject(Resource o) {
 		return object.equals(o);
+	}
+	
+	public boolean equalsSP() {
+		return subject.equals(predicate);
+	}
+	
+	public boolean equalsPO() {
+		return predicate.equals(object);
+	}
+	
+	public boolean equalsSO() {
+		return subject.equals(object);
+	}
+	
+	public boolean equalsSPO() {
+		return equalsSP() && equalsSO();
 	}
 		
 }
