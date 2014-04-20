@@ -1,10 +1,10 @@
 package rule;
 
-import query.QueryTarget;
+import core.Ontology;
 import query.Resolution;
 
 public interface Head {
 
-	Resolution solve(QueryTarget target);
+	Resolution solve(Ontology target);
 
 }

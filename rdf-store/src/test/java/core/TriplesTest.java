@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class TriplesTest {
 	
-	private Triples sut;
+	private FastOntology sut;
 	
 	private static final Resource s1 = Resource.of("s1");
 	private static final Resource p1 = Resource.of("p1");
@@ -25,7 +25,7 @@ public class TriplesTest {
 
 	@Before
 	public void setUp() throws Exception {
-		sut = new Triples();
+		sut = new FastOntology();
 	}
 
 	@Test

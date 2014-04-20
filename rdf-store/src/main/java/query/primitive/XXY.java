@@ -3,10 +3,10 @@ package query.primitive;
 import java.util.HashSet;
 import java.util.Set;
 
-import query.QueryTarget;
 import query.Resolution;
 import query.Substitution;
 import query.Variable;
+import core.Ontology;
 import core.Triple;
 
 public class XXY extends AbstractPrimitiveQuery<Variable,Variable,Variable> {
@@ -16,7 +16,7 @@ public class XXY extends AbstractPrimitiveQuery<Variable,Variable,Variable> {
 	}
 
 	@Override
-	public Resolution solve(QueryTarget target) {
+	public Resolution solve(Ontology target) {
 		Set<Substitution> substitutions = new HashSet<>();
 		
 		for ( final Triple t : target.listXXY() ) {

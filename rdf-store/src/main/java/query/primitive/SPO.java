@@ -1,7 +1,7 @@
 package query.primitive;
 
-import query.QueryTarget;
 import query.Resolution;
+import core.Ontology;
 import core.Resource;
 import core.Triple;
 
@@ -12,7 +12,7 @@ public class SPO extends AbstractPrimitiveQuery<Resource,Resource,Resource> {
 	}
 
 	@Override
-	public Resolution solve(QueryTarget target) {
+	public Resolution solve(Ontology target) {
 		return target.contains(s, p, o) ? Resolution.SUCCESS : Resolution.FAILURE;
 	}
 	

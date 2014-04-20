@@ -1,10 +1,10 @@
 package query.primitive;
 
 import query.PrimitiveQuery;
-import query.QueryTarget;
 import query.Resolution;
 import query.Substitution;
 import query.Token;
+import core.Ontology;
 import core.Triple;
 
 public abstract class
@@ -75,7 +75,7 @@ implements PrimitiveQuery {
 	}
 	
 	@Override
-	abstract public Resolution solve(QueryTarget target);
+	abstract public Resolution solve(Ontology target);
 	
 	@Override
 	public PrimitiveQuery apply(Substitution sub) {

@@ -9,11 +9,11 @@ import query.Query;
 import query.QueryParser;
 import rule.Rule;
 import rule.RuleParser;
-import rule.RuleTarget;
 import rule.Rules;
+import core.Ontology;
 import core.Resource;
 import core.Triple;
-import core.Triples;
+import core.FastOntology;
 
 public class PLSATSolver {
 	
@@ -37,7 +37,7 @@ public class PLSATSolver {
 	public static final Satisfiability check(String exp) {
 		ResourceIssuer issuer = new ResourceIssuerImpl();
 		Set<Triple> ts = PLParser.parse(exp).toTriples(issuer, _1);
-		RuleTarget target = rules.apply( new Triples(ts) );
+		Ontology target = rules.apply( new FastOntology(ts) );
 		
 		return query.solve(target).isEmpty() ? Satisfiability.YES : Satisfiability.NO;
 	}

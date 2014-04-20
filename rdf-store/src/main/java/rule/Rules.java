@@ -6,6 +6,7 @@ import java.util.Set;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
+import core.Ontology;
 import core.Triple;
 
 public class Rules {
@@ -21,7 +22,7 @@ public class Rules {
 		this( Sets.newHashSet(rules) );
 	}
 	
-	public RuleTarget apply(RuleTarget target) {
+	public Ontology apply(Ontology target) {
 		while ( true ) {
 			Set<Triple> triples = applyOnce(target);
 
@@ -35,7 +36,7 @@ public class Rules {
 		return target;
 	}
 	
-	private Set<Triple> applyOnce(RuleTarget target) {
+	private Set<Triple> applyOnce(Ontology target) {
 		Set<Triple> triples = new HashSet<>();
 		
 		for ( final Rule r : rules) { 

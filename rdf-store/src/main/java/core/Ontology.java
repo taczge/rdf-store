@@ -1,13 +1,15 @@
-package query;
+package core;
 
 import java.util.Collection;
 
-import core.Resource;
-import core.Triple;
 
+public interface Ontology {
 
-public interface QueryTarget {
-
+	void add(Triple t);
+	void add(Resource s, Resource p, Resource o);
+	void addAll(Collection<Triple> ts);
+	
+	boolean contains(Triple t);
 	boolean contains(Resource s, Resource p, Resource o);
 	
 	Collection<Triple> listXPO(Resource p, Resource o);

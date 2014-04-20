@@ -7,13 +7,13 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import core.Triple;
-import core.Triples;
+import core.FastOntology;
 
 public class RDFFileReader implements Reader {
 
 	@Override
-	public Triples read(String filePath) {
-		Triples triples = new Triples();
+	public FastOntology read(String filePath) {
+		FastOntology triples = new FastOntology();
 		
 		for ( final String line : getLines(filePath) ) {
 			String[] tokens = line.split(",");

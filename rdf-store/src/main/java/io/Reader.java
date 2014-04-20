@@ -1,9 +1,9 @@
 package io;
 
-import core.Triples;
+import core.FastOntology;
 
 public interface Reader {
 
-	Triples read(String filename);
+	FastOntology read(String filename);
 
 }

@@ -10,6 +10,7 @@ import rule.Head;
 
 import com.google.common.collect.Lists;
 
+import core.Ontology;
 import core.Triple;
 
 public class Query implements Head, Body {
@@ -50,11 +51,11 @@ public class Query implements Head, Body {
 		return new Query(applied);
 	}
 
-	public Resolution solve(QueryTarget target) {
+	public Resolution solve(Ontology target) {
 		return __solve( new Substitution(), target );
 	}
 	
-	private Resolution __solve(Substitution previous, QueryTarget target) {
+	private Resolution __solve(Substitution previous, Ontology target) {
 		Resolution current = this.apply(previous).head().solve(target);
 		Resolution next    = current.concat(previous);
 		

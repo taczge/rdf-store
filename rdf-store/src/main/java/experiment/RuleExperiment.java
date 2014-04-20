@@ -6,13 +6,14 @@ import java.io.File;
 
 import rule.Rule;
 import rule.RuleParser;
-import rule.RuleTarget;
 
 import com.google.common.base.Joiner;
 
+import core.Ontology;
+
 public class RuleExperiment {
 	
-	public static RuleTarget load() {
+	public static Ontology load() {
 		final String path = Joiner.on(File.separator).join( 
 				System.getProperty("user.dir"), "src", "main", "resources", "onto.rdf");
 
@@ -20,7 +21,7 @@ public class RuleExperiment {
 	}
 
 	public static void main(String[] args) {
-		RuleTarget target = load();
+		Ontology target = load();
 		
 		Rule rule = RuleParser.parse(
 				"?x,rdfs:subClassOf,?y.=>?x,rdfs:subClassOf,?x.?y,rdfs:subClassOf,?y.");

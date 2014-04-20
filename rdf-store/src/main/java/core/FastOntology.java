@@ -4,13 +4,10 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import query.QueryTarget;
-import rule.RuleTarget;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
-public class Triples implements QueryTarget, RuleTarget {
+public class FastOntology implements Ontology {
 
 	private Multimap<Resource,Triple> stmap;
 	private Multimap<Resource,Triple> ptmap;
@@ -21,18 +18,18 @@ public class Triples implements QueryTarget, RuleTarget {
 	private Set<Triple> sameSO; 
 	private Set<Triple> sameSPO;
 	
-	public Triples() {
-		stmap = HashMultimap.create();
-		ptmap = HashMultimap.create();
-		otmap = HashMultimap.create();
+	public FastOntology() {
+		stmap   = HashMultimap.create();
+		ptmap   = HashMultimap.create();
+		otmap   = HashMultimap.create();
 	
-		sameSP = new HashSet<>();
-		samePO = new HashSet<>();
-		sameSO = new HashSet<>();
+		sameSP  = new HashSet<>();
+		samePO  = new HashSet<>();
+		sameSO  = new HashSet<>();
 		sameSPO = new HashSet<>();
 	}
 	
-	public Triples(Collection<Triple> triples) {
+	public FastOntology(Collection<Triple> triples) {
 		this();
 		
 		addAll(triples);
@@ -59,7 +56,7 @@ public class Triples implements QueryTarget, RuleTarget {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Triples other = (Triples) obj;
+		FastOntology other = (FastOntology) obj;
 		if (stmap == null) {
 			if (other.stmap != null) {
 				return false;
@@ -80,7 +77,8 @@ public class Triples implements QueryTarget, RuleTarget {
 		
 		return sb.toString();
 	}
-
+	
+	@Override
 	public void add(Triple t) {
 		Resource s = t.getSubject();
 		Resource p = t.getPredicate();
@@ -95,12 +93,25 @@ public class Triples implements QueryTarget, RuleTarget {
 		if ( p.equals(o) ) samePO.add(t);
 		
 		if ( s.equals(p) && s.equals(o)) sameSPO.add(t);
-
 	}
 	
+	@Override
 	public void add(Resource s, Resource p, Resource o) {
 		add( new Triple(s, p, o) );
 	}
+	
+	@Override
+	public void addAll(Collection<Triple> ts) {
+		for ( final Triple t : ts) {
+			add(t);
+		}
+	}
+
+	@Override
+	public boolean contains(Triple t) {
+		return contains( t.getSubject(), t.getPredicate(), t.getObject() );
+	}
+	
 	
 	@Override
 	public boolean contains(Resource s, Resource p, Resource o) {
@@ -223,18 +234,6 @@ public class Triples implements QueryTarget, RuleTarget {
 	@Override
 	public Collection<Triple> listXXX() {
 		return sameSPO;
-	}
-
-	@Override
-	public boolean contains(Triple t) {
-		return contains( t.getSubject(), t.getPredicate(), t.getObject() );
-	}
-	
-	@Override
-	public void addAll(Collection<Triple> ts) {
-		for ( final Triple t : ts) {
-			add(t);
-		}
 	}
 
 }

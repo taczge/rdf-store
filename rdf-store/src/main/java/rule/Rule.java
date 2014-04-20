@@ -3,6 +3,7 @@ package rule;
 import java.util.HashSet;
 import java.util.Set;
 
+import core.Ontology;
 import core.Triple;
 
 public class Rule {
@@ -18,13 +19,13 @@ public class Rule {
 		this.body = body;
 	}
 	
-	public Set<Triple> apply(RuleTarget target) {
+	public Set<Triple> apply(Ontology target) {
 		Set<Triple> triples = body.apply( head.solve(target) );
 
 		return removeAll(triples, target); 
 	}
 	
-	private Set<Triple> removeAll(Set<Triple> src, RuleTarget target) {
+	private Set<Triple> removeAll(Set<Triple> src, Ontology target) {
 		Set<Triple> removed = new HashSet<>();
 		
 		for ( final Triple t : src) {
