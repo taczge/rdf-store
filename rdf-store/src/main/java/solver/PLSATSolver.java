@@ -1,23 +1,6 @@
 package solver;
 
-<<<<<<< HEAD
-import java.util.Set;
-
-import logic.PLParser;
-import logic.ResourceIssuer;
-import logic.ResourceIssuerImpl;
-import query.Query;
-import query.QueryParser;
-import rule.Rule;
-import rule.RuleParser;
-import rule.Rules;
-import core.Ontology;
 import core.Resource;
-import core.Triple;
-import core.FastOntology;
-=======
-import core.Resource;
->>>>>>> origin/develop
 
 
 public interface PLSATSolver {
@@ -33,14 +16,4 @@ public interface PLSATSolver {
 	
 	Satisfiability check(String exp);
 
-<<<<<<< HEAD
-	public static final Satisfiability check(String exp) {
-		ResourceIssuer issuer = new ResourceIssuerImpl();
-		Set<Triple> ts = PLParser.parse(exp).toTriples(issuer, _1);
-		Ontology target = rules.apply( new FastOntology(ts) );
-		
-		return query.solve(target).isEmpty() ? Satisfiability.YES : Satisfiability.NO;
-	}
-=======
->>>>>>> origin/develop
 }

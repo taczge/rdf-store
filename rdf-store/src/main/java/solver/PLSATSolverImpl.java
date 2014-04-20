@@ -7,10 +7,10 @@ import query.Query;
 import query.QueryParser;
 import rule.Rule;
 import rule.RuleParser;
-import rule.RuleTarget;
 import rule.Rules;
+import core.FastOntology;
+import core.Ontology;
 import core.Triple;
-import core.Triples;
 
 public class PLSATSolverImpl implements PLSATSolver {
 	
@@ -27,7 +27,7 @@ public class PLSATSolverImpl implements PLSATSolver {
 
 	public Satisfiability check(String exp) {
 		Set<Triple> ts = PLParser.parse(exp).toTriples();
-		RuleTarget target = rules.apply( new Triples(ts) );
+		Ontology target = rules.apply( new FastOntology(ts) );
 		
 		return query.solve(target).isEmpty() ? Satisfiability.YES : Satisfiability.NO;
 	}
