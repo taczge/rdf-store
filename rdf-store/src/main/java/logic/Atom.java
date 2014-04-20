@@ -3,6 +3,7 @@ package logic;
 import java.util.HashSet;
 import java.util.Set;
 
+import solver.PLSATSolver;
 import core.Resource;
 import core.Triple;
 
@@ -50,14 +51,28 @@ public class Atom implements Proposition {
 		return name;
 	}
 	
-	private static final Resource atom = Resource.of("ATOM");
+	@Override
+	public Set<Triple> toTriples() {
+		return toTriples(new ResourceIssuerImpl(), PLSATSolver._1);
+	}
+	
 	@Override
 	public Set<Triple> toTriples(ResourceIssuer issuer, Resource previous) {
 		Set<Triple> triples = new HashSet<>(1);
 		
-		triples.add( new Triple(previous, atom, Resource.of(name)) );
+		triples.add( new Triple(previous, PLSATSolver.ATOM, Resource.of(name)) );
 		
 		return triples;
 	}
 
+	@Override
+	public Proposition simplify() {
+		return this;
+	}
+
+	@Override
+	public Proposition normalize() {
+		return this;
+	}
+	
 }
