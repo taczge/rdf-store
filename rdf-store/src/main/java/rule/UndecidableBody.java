@@ -10,6 +10,7 @@ import query.Substitution;
 import core.DifferenceOntology;
 import core.Ontology;
 import core.SimpleOntology;
+import core.Triple;
 import core.UndecidableOntology;
 
 public class UndecidableBody {
@@ -86,22 +87,26 @@ public class UndecidableBody {
 	
 	public UndecidableOntology apply(Ontology ontology, Resolution r) {
 		if ( r.isEmpty() ) {
-			return UndecidableOntology.of(ontology);
+			return UndecidableOntology.singleton(ontology);
 		}
 		
-		return apply( ontology, r.get() );
+		return apply( ontology, r.fetch() );
 	}
 
-	public UndecidableOntology apply(Ontology common, Substitution s) {
+	private UndecidableOntology apply(Ontology original, Substitution substitution) {
 		Set<Ontology> differences = new HashSet<>( bodies.size() );
 		
 		for ( final Body b : bodies ) {
-			SimpleOntology diff = new SimpleOntology( b.toTriple(s) );
+			Set<Triple> inferredTriples = b.toTriple( Resolution.of(substitution) );
 			
-			differences.add( diff );
+			if ( original.containsAll( inferredTriples ) ) {
+				return UndecidableOntology.singleton( original );
+			}
+
+			differences.add( new SimpleOntology( inferredTriples ) );
 		}
 		
-		return DifferenceOntology.distribute(common, differences); 
+		return DifferenceOntology.distribute(original, differences); 
 	}
 
 }

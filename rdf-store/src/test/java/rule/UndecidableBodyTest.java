@@ -22,13 +22,15 @@ public class UndecidableBodyTest {
 	private static final Resource a = Resource.of("a");
 	private static final Resource b = Resource.of("b");
 	private static final Resource c = Resource.of("c");
+	private static final Resource p = Resource.of("p");
 	
 	private static final Resource tp = Resource.of("rdf:type");
 	private static final Resource man = Resource.of("Man");
 	private static final Resource woman = Resource.of("Woman");
 	
 	private static final Variable x = Variable.of("x");
-	
+	private static final Variable y = Variable.of("y");
+	private static final Variable z = Variable.of("z");
 
 	@Before
 	public void setUp() throws Exception {
@@ -73,7 +75,47 @@ public class UndecidableBodyTest {
 		UndecidableOntology expected = UndecidableOntology.of(ontology);
 		
 		assertThat(sut.apply(ontology, resolution), is(expected));
+	}
+	
+	@Test
+	public void apply_returnDifferenceOntology() {
+		UndecidableBody sut = UndecidableBodyParser.parse("?x,p,?z.|?z,p,?x.");
 		
+		Ontology original = new SimpleOntology();
+		original.add( a, p, b );
+		original.add( b, p, c );
+		
+		Substitution s = new Substitution();
+		s.put(x, a);
+		s.put(y, b);
+		s.put(z, c);
+		Resolution resolution = Resolution.of(s);
+		
+		Ontology l = new DifferenceOntology( original, SimpleOntology.singleton(a, p, c) );
+		Ontology r = new DifferenceOntology( original, SimpleOntology.singleton(c, p, a) );
+
+		UndecidableOntology expected = UndecidableOntology.of( l, r );
+
+		assertThat(sut.apply(original, resolution), is(expected));
+	}
+	
+	@Test
+	public void apply_returnSingletonOfGivenOntolgoy() {
+		UndecidableBody sut = UndecidableBodyParser.parse("?x,p,?z.|?z,p,?x.|?x,p,?y.");
+		
+		Ontology original = new SimpleOntology();
+		original.add( a, p, b );
+		original.add( b, p, c );
+		
+		Substitution s = new Substitution();
+		s.put(x, a);
+		s.put(y, b);
+		s.put(z, c);
+		Resolution resolution = Resolution.of(s);
+		
+		UndecidableOntology expected = UndecidableOntology.singleton( original );
+
+		assertThat(sut.apply(original, resolution), is(expected));
 	}
 
 }

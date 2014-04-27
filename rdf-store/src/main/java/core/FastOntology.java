@@ -129,6 +129,17 @@ public class FastOntology implements Ontology {
 	public boolean contains(Resource s, Resource p, Resource o) {
 		return stmap.get(s).contains(new Triple(s, p, o));
 	}
+	
+	@Override
+	public boolean containsAll(Iterable<Triple> ts) {
+		for ( final Triple t : ts ) {
+			if ( !contains(t) ) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 
 	@Override
 	public Collection<Triple> listXPO(Resource p, Resource o) {

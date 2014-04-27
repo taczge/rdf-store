@@ -15,6 +15,18 @@ public class SimpleOntology implements Ontology {
 		this.triples = triples;
 	}
 	
+	public static SimpleOntology singleton(Triple t) {
+		SimpleOntology ontology = new SimpleOntology();
+		
+		ontology.add(t);
+		
+		return ontology;
+	}
+	
+	public static SimpleOntology singleton(Resource s, Resource p, Resource o) {
+		return singleton( new Triple(s, p, o) );
+	}
+		
 	public SimpleOntology() {
 		this( new HashSet<Triple>(DEFAULT_SIZE) );
 	}
@@ -77,6 +89,17 @@ public class SimpleOntology implements Ontology {
 	@Override
 	public boolean contains(Resource s, Resource p, Resource o) {
 		return triples.contains( new Triple(s, p, o) );
+	}
+	
+	@Override
+	public boolean containsAll(Iterable<Triple> ts) {
+		for ( final Triple t : ts ) {
+			if ( !contains(t) ) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	private interface Predicate {

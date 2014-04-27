@@ -26,6 +26,17 @@ public class DifferenceOntology implements Ontology {
 		return new UndecidableOntology( os );
 	}
 	
+	public static final UndecidableOntology
+	distribute(Ontology parent, Ontology... chiledren) {
+		Set<Ontology> os = new HashSet<>();
+		
+		for ( final Ontology child : chiledren ) {
+			os.add( new DifferenceOntology(parent, child) );
+		}
+		
+		return new UndecidableOntology( os );
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -68,8 +79,7 @@ public class DifferenceOntology implements Ontology {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(parent);
-		sb.append(" + ").append(self);
+		sb.append(parent).append(" + ").append(self);
 		
 		return sb.toString();
 	}
@@ -97,6 +107,18 @@ public class DifferenceOntology implements Ontology {
 	@Override
 	public boolean contains(Resource s, Resource p, Resource o) {
 		return self.contains(s, p, o) || parent.contains(s, p, o);
+	}
+	
+	
+	@Override
+	public boolean containsAll(Iterable<Triple> ts) {
+		for ( final Triple t : ts ) {
+			if ( !contains(t) ) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	private <T> Collection<T> union(Collection<T> a, Collection<T> b) {
@@ -177,6 +199,5 @@ public class DifferenceOntology implements Ontology {
 	public Collection<Triple> listXXX() {
 		return union( self.listXXX(), parent.listXXX() );
 	}
-
 
 }

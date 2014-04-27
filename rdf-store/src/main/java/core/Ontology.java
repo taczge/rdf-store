@@ -11,6 +11,7 @@ public interface Ontology {
 	
 	boolean contains(Triple t);
 	boolean contains(Resource s, Resource p, Resource o);
+	boolean containsAll(Iterable<Triple> ts);
 	
 	Collection<Triple> listXPO(Resource p, Resource o);
 	Collection<Triple> listSXO(Resource s, Resource o);

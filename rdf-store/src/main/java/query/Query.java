@@ -41,7 +41,7 @@ public class Query implements Head, Body {
 	}
 	
 	private Query tail() {
-		if ( hasTail() ) {
+		if ( !hasTail() ) {
 			throw new IllegalStateException( "This query does not have any tail." );
 		}
 
@@ -139,11 +139,6 @@ public class Query implements Head, Body {
 		}
 		
 		return result;
-	}
-	
-	@Override
-	public Set<Triple> toTriple(Substitution s) {
-		return this.apply(s).toTriple();
 	}
 	
 	private Set<Triple> toTriple() {

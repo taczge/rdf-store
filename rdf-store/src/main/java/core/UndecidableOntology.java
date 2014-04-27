@@ -14,6 +14,14 @@ public class UndecidableOntology implements Iterable<Ontology> {
 		this.ontologies = ontologies;
 	}
 	
+	private UndecidableOntology() {
+		this( new HashSet<Ontology>() );
+	}
+	
+	public static UndecidableOntology createEmpty() {
+		return new UndecidableOntology();
+	}
+		
 	public static UndecidableOntology of(Iterable<Ontology> iter) {
 		Set<Ontology> os = new HashSet<>();
 
@@ -24,14 +32,20 @@ public class UndecidableOntology implements Iterable<Ontology> {
 		return new UndecidableOntology( os );
 	}
 	
-	public static UndecidableOntology of(Ontology...array) {
+	public static UndecidableOntology of(Ontology first, Ontology...rest) {
 		Set<Ontology> os = new HashSet<>();
+		
+		os.add( first );
 
-		for ( final Ontology o : array ) {
-			os.add(o);
+		for ( final Ontology o : rest ) {
+			os.add( o );
 		}
 		
 		return new UndecidableOntology( os );
+	}
+	
+	public static UndecidableOntology singleton(Ontology o) {
+		return of(o);
 	}
 	
 	@Override
@@ -81,6 +95,10 @@ public class UndecidableOntology implements Iterable<Ontology> {
 	@Override
 	public Iterator<Ontology> iterator() {
 		return ontologies.iterator();
+	}
+	
+	public boolean addAll(UndecidableOntology other) {
+		return ontologies.addAll( other.ontologies );
 	}
 
 }

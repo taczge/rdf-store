@@ -1,24 +1,17 @@
 package rule;
 
-import java.util.Set;
-
 import core.Ontology;
-import core.Triple;
+import core.UndecidableOntology;
 
-public class Rule {
-	
+public class UndecidableRule {
+
 	private final Head head;
-	private final Body body;
-
-	public Rule(Head head, Body body) {
+	private final UndecidableBody body;
+	
+	public UndecidableRule(Head head, UndecidableBody body) {
 		super();
-		
 		this.head = head;
 		this.body = body;
-	}
-	
-	public Set<Triple> apply(Ontology ontology) {
-		return body.toTriple( head.solve(ontology) );
 	}
 	
 	@Override
@@ -41,7 +34,7 @@ public class Rule {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Rule other = (Rule) obj;
+		UndecidableRule other = (UndecidableRule) obj;
 		if (body == null) {
 			if (other.body != null) {
 				return false;
@@ -58,10 +51,23 @@ public class Rule {
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String toString() {
 		return head + "=>" + body;
 	}
 	
+	public UndecidableOntology apply(Ontology ontology) {
+		return body.apply( ontology, head.solve(ontology) );
+	}
+	
+	public UndecidableOntology apply(UndecidableOntology ontology) {
+		UndecidableOntology undecidable = UndecidableOntology.createEmpty();
+		
+		for ( final Ontology o : ontology) {
+			undecidable.addAll( apply(o) );
+		}
+			
+		return undecidable;
+	}
 }
