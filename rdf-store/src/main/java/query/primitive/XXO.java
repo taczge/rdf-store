@@ -21,7 +21,7 @@ public class XXO extends AbstractPrimitiveQuery<Variable,Variable,Resource> {
 		Set<Substitution> substitutions = new HashSet<>();
 		
 		for ( final Triple t : target.listXXO(o) ) {
-			substitutions.add( new Substitution(s, t.getSubject()) );
+			substitutions.add( Substitution.singleton(s, t.getSubject()) );
 		}
 
 		return Resolution.of(substitutions);

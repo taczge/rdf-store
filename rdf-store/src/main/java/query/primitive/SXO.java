@@ -21,7 +21,7 @@ public class SXO extends AbstractPrimitiveQuery<Resource,Variable,Resource> {
 		Set<Substitution> res = new HashSet<>();
 
 		for ( final Triple t : target.listSXO(s, o) ) {
-			res.add( new Substitution(p, t.getPredicate()) ); 
+			res.add( Substitution.singleton(p, t.getPredicate()) ); 
 		}
 
 		return Resolution.of(res);

@@ -3,8 +3,10 @@ package rule;
 import java.util.HashSet;
 import java.util.Set;
 
+import query.Resolution;
 import core.Ontology;
 import core.Triple;
+import core.UndecidableOntology;
 
 public class Rule {
 	
@@ -14,27 +16,23 @@ public class Rule {
 	public Rule(Head head, Body body) {
 		super();
 		
-		// TODO: head <= body でないときのエラー処理
 		this.head = head;
 		this.body = body;
 	}
 	
-	public Set<Triple> apply(Ontology target) {
-		Set<Triple> triples = body.apply( head.solve(target) );
-
-		return removeAll(triples, target); 
+	public Set<Triple> apply(Ontology ontology) {
+		return body.toTriple( head.solve(ontology) );
 	}
 	
-	private Set<Triple> removeAll(Set<Triple> src, Ontology target) {
-		Set<Triple> removed = new HashSet<>();
+	public UndecidableOntology apply(UndecidableOntology undecidable) {
+		Set<UndecidableOntology> difference = new HashSet<>();
 		
-		for ( final Triple t : src) {
-			if ( !target.contains(t) ) {
-				removed.add(t);
-			}
+		for ( final Ontology o : undecidable ) {
+			Resolution r = head.solve(o);
+			difference.add( body.apply(o, r) );
 		}
 		
-		return removed;
+		return UndecidableOntology.of(difference);
 	}
 	
 	@Override

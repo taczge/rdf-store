@@ -20,7 +20,7 @@ public class XXX extends AbstractPrimitiveQuery<Variable,Variable,Variable> {
 		Set<Substitution> substitutions = new HashSet<>();
 		
 		for ( final Triple t : target.listXXX() ) {
-			substitutions.add( new Substitution(s, t.getSubject()) );
+			substitutions.add( Substitution.singleton(s, t.getSubject()) );
 		}
 
 		return Resolution.of(substitutions);

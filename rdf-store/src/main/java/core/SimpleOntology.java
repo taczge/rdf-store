@@ -18,20 +18,55 @@ public class SimpleOntology implements Ontology {
 	public SimpleOntology() {
 		this( new HashSet<Triple>(DEFAULT_SIZE) );
 	}
-
+	
 	@Override
-	public void add(Triple t) {
-		triples.add( t );
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((triples == null) ? 0 : triples.hashCode());
+		return result;
 	}
 
 	@Override
-	public void add(Resource s, Resource p, Resource o) {
-		triples.add( new Triple(s, p, o) );
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		SimpleOntology other = (SimpleOntology) obj;
+		if (triples == null) {
+			if (other.triples != null) {
+				return false;
+			}
+		} else if (!triples.equals(other.triples)) {
+			return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		return triples.toString();
 	}
 
 	@Override
-	public void addAll(Collection<Triple> ts) {
-		triples.addAll( ts );
+	public boolean add(Triple t) {
+		return triples.add( t );
+	}
+
+	@Override
+	public boolean add(Resource s, Resource p, Resource o) {
+		return triples.add( new Triple(s, p, o) );
+	}
+
+	@Override
+	public boolean addAll(Collection<Triple> ts) {
+		return triples.addAll( ts );
 	}
 
 	@Override

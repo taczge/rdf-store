@@ -21,7 +21,7 @@ public class SPX extends AbstractPrimitiveQuery<Resource,Resource,Variable> {
 		Set<Substitution> res = new HashSet<>();
 
 		for ( final Triple t : target.listSPX(s, p) ) {
-			res.add( new Substitution(o, t.getObject()) ); 
+			res.add( Substitution.singleton(o, t.getObject()) ); 
 		}
 
 		return Resolution.of(res);

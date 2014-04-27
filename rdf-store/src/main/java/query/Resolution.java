@@ -152,4 +152,8 @@ public class Resolution implements Iterable<Substitution> {
 		return substitutions.iterator();
 	}
 	
+	public Substitution get() {
+		return substitutions.iterator().next();
+	}
+	
 }

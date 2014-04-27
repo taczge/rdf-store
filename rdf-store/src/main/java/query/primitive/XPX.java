@@ -20,7 +20,7 @@ public class XPX extends AbstractPrimitiveQuery<Variable,Resource,Variable> {
 		Set<Substitution> substitutions = new HashSet<>();
 		
 		for ( final Triple t : target.listXPX(p) ) {
-			substitutions.add( new Substitution(s, t.getSubject()) );
+			substitutions.add( Substitution.singleton(s, t.getSubject()) );
 		}
 
 		return Resolution.of(substitutions);

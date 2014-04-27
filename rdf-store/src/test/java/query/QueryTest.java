@@ -47,7 +47,7 @@ public class QueryTest {
 		expected.add(new Triple(b, c, c));
 		expected.add(new Triple(c, c, b));
 				
-		assertThat(sut.apply(r), is(expected));
+		assertThat(sut.toTriple(r), is(expected));
 	}
 
 }

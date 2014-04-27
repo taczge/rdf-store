@@ -1,18 +1,29 @@
 package core;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import util.Util;
-
-public class CompositeOntology implements Ontology {
+public class DifferenceOntology implements Ontology {
 	
 	private final Ontology parent;
 	private final Ontology self;
 
-	public CompositeOntology(Ontology parent, Ontology self) {
+	public DifferenceOntology(Ontology parent, Ontology self) {
 		super();
 		this.parent = parent;
-		this.self = self;
+		this.self   = self;
+	}
+	
+	public static final UndecidableOntology
+	distribute(Ontology parent, Iterable<Ontology> chiledren) {
+		Set<Ontology> os = new HashSet<>();
+		
+		for ( final Ontology child : chiledren ) {
+			os.add( new DifferenceOntology(parent, child) );
+		}
+		
+		return new UndecidableOntology( os );
 	}
 	
 	@Override
@@ -35,7 +46,7 @@ public class CompositeOntology implements Ontology {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		CompositeOntology other = (CompositeOntology) obj;
+		DifferenceOntology other = (DifferenceOntology) obj;
 		if (parent == null) {
 			if (other.parent != null) {
 				return false;
@@ -52,25 +63,30 @@ public class CompositeOntology implements Ontology {
 		}
 		return true;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "CompositeOntology [parent=" + parent + ", self=" + self + "]";
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(parent);
+		sb.append(" + ").append(self);
+		
+		return sb.toString();
 	}
 
 	@Override
-	public void add(Triple t) {
-		self.add(t);
+	public boolean add(Triple t) {
+		return self.add(t);
 	}
 
 	@Override
-	public void add(Resource s, Resource p, Resource o) {
-		self.add(s, p, o);
+	public boolean add(Resource s, Resource p, Resource o) {
+		return self.add(s, p, o);
 	}
 
 	@Override
-	public void addAll(Collection<Triple> ts) {
-		self.addAll( ts );
+	public boolean addAll(Collection<Triple> ts) {
+		return self.addAll(ts);
 	}
 
 	@Override
@@ -82,75 +98,85 @@ public class CompositeOntology implements Ontology {
 	public boolean contains(Resource s, Resource p, Resource o) {
 		return self.contains(s, p, o) || parent.contains(s, p, o);
 	}
+	
+	private <T> Collection<T> union(Collection<T> a, Collection<T> b) {
+		Set<T> union = new HashSet<>( a.size() + b.size() );
+		
+		union.addAll( a );
+		union.addAll( b );
+		
+		return union;
+	}
 
 	@Override
 	public Collection<Triple> listXPO(Resource p, Resource o) {
-		return Util.union( parent.listXPO(p, o), self.listXPO(p, o) );
+		return union( self.listXPO(p, o), parent.listXPO(p, o) ); 
 	}
 
 	@Override
 	public Collection<Triple> listSXO(Resource s, Resource o) {
-		return Util.union( parent.listSXO(s, o), self.listSXO(s, o) );
+		return union( self.listSXO(s, o), parent.listSXO(s, o) );
 	}
 
 	@Override
 	public Collection<Triple> listSPX(Resource s, Resource p) {
-		return Util.union( parent.listSPX(s, p), self.listSPX(s, p) );
+		return union( self.listSPX(s, p), parent.listSPX(s, p) );
 	}
 
 	@Override
 	public Collection<Triple> listSXY(Resource s) {
-		return Util.union( parent.listSXY(s), self.listSXY(s) );
+		return union( self.listSXY(s), parent.listSXY(s) );
 	}
 
 	@Override
 	public Collection<Triple> listXPY(Resource p) {
-		return Util.union( parent.listXPY(p), self.listXPY(p) );
+		return union( self.listXPY(p), parent.listXPY(p) );
 	}
 
 	@Override
 	public Collection<Triple> listXYO(Resource o) {
-		return Util.union( parent.listXYO(o), self.listXYO(o) );
+		return union( self.listXYO(o), parent.listXYO(o) );
 	}
 
 	@Override
 	public Collection<Triple> listSXX(Resource s) {
-		return Util.union( parent.listSXX(s), self.listSXX(s) );
+		return union( self.listSXX(s), parent.listSXX(s) );
 	}
 
 	@Override
 	public Collection<Triple> listXPX(Resource p) {
-		return Util.union( parent.listXPX(p), self.listXPX(p) );
+		return union( self.listXPX(p), parent.listXPX(p) );
 	}
 
 	@Override
 	public Collection<Triple> listXXO(Resource o) {
-		return Util.union( parent.listXXO(o), self.listXXO(o) );
+		return union( self.listXXO(o), parent.listXXO(o) );
 	}
 
 	@Override
 	public Collection<Triple> listXYZ() {
-		return Util.union( parent.listXYZ(), self.listXYZ() );
+		return union( self.listXYZ(), parent.listXYZ() );
 	}
 
 	@Override
 	public Collection<Triple> listXXY() {
-		return Util.union( parent.listXXY(), self.listXXY() );
+		return union( self.listXXY(), parent.listXXY() );
 	}
 
 	@Override
 	public Collection<Triple> listXYY() {
-		return Util.union( parent.listXYY(), self.listXYY() );
+		return union( self.listXYY(), parent.listXYY() );
 	}
 
 	@Override
 	public Collection<Triple> listXYX() {
-		return Util.union( parent.listXYX(), self.listXYX() );
+		return union( self.listXYX(), parent.listXYX() );
 	}
 
 	@Override
 	public Collection<Triple> listXXX() {
-		return Util.union( parent.listXXX(), self.listXXX() );
+		return union( self.listXXX(), parent.listXXX() );
 	}
+
 
 }

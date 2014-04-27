@@ -1,10 +1,13 @@
 package rule;
 
-import core.Ontology;
+import query.QueryAnswer;
 import query.Resolution;
+import core.Ontology;
+import core.UndecidableOntology;
 
 public interface Head {
 
-	Resolution solve(Ontology target);
+	Resolution solve(Ontology ontology);
+	QueryAnswer solve(UndecidableOntology ontology);
 
 }

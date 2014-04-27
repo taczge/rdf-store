@@ -21,7 +21,7 @@ public class XPO extends AbstractPrimitiveQuery<Variable,Resource,Resource> {
 		Set<Substitution> res = new HashSet<>();
 
 		for ( final Triple t : target.listXPO(p, o) ) {
-			res.add( new Substitution(s, t.getSubject()) ); 
+			res.add( Substitution.singleton(s, t.getSubject()) ); 
 		}
 
 		return Resolution.of(res);

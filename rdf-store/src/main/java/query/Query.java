@@ -12,6 +12,7 @@ import com.google.common.collect.Lists;
 
 import core.Ontology;
 import core.Triple;
+import core.UndecidableOntology;
 
 public class Query implements Head, Body {
 	
@@ -28,24 +29,30 @@ public class Query implements Head, Body {
 	}
 	
 	private boolean hasTail() {
-		// TODO: 実行時例外を投げる
 		return primitives.size() >= 2;
 	}
 	
 	private PrimitiveQuery head() {
-		// TODO: 実行時例外を投げる
+		if ( primitives.isEmpty() ) {
+			throw new IllegalStateException( "This query does not have any head." );
+		}
+
 		return primitives.get(0);
 	}
 	
 	private Query tail() {
+		if ( hasTail() ) {
+			throw new IllegalStateException( "This query does not have any tail." );
+		}
+
 		return new Query( primitives.subList(1, primitives.size()) );
 	}
 	
-	private Query apply(Substitution substitution) {
+	private Query apply(Substitution s) {
 		List<PrimitiveQuery> applied = new LinkedList<>();
 		
 		for ( final PrimitiveQuery primitive : primitives ) {
-			applied.add( primitive.apply(substitution) );
+			applied.add( primitive.apply(s) );
 		}
 
 		return new Query(applied);
@@ -69,6 +76,16 @@ public class Query implements Head, Body {
 		}
 		
 		return answer.isEmpty() ? Resolution.FAILURE : answer;
+	}
+	
+	public QueryAnswer solve(UndecidableOntology undecidable) {
+		Set<Resolution> answer = new HashSet<>();
+		
+		for ( final Ontology o : undecidable ) {
+			answer.add( solve(o) );
+		}
+		
+		return new QueryAnswer( answer );
 	}
 	
 	@Override
@@ -114,7 +131,7 @@ public class Query implements Head, Body {
 	}
 
 	@Override
-	public Set<Triple> apply(Resolution r) {
+	public Set<Triple> toTriple(Resolution r) {
 		Set<Triple> result = new HashSet<>();
 		
 		for ( final Substitution s : r) {
@@ -122,6 +139,11 @@ public class Query implements Head, Body {
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public Set<Triple> toTriple(Substitution s) {
+		return this.apply(s).toTriple();
 	}
 	
 	private Set<Triple> toTriple() {
@@ -133,5 +155,6 @@ public class Query implements Head, Body {
 		
 		return triples;
 	}
+
 
 }

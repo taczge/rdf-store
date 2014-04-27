@@ -20,9 +20,12 @@ public class Substitution {
 		this( new HashMap<Variable, Resource>() );
 	}
 	
-	public Substitution(Variable v, Resource c) {
-		this();
-		substitutions.put(v, c);		
+	public static Substitution singleton(Variable v, Resource c) {
+		Substitution s = new Substitution();
+		
+		s.put(v, c);
+
+		return s;
 	}
 	
 	@Override

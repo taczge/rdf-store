@@ -20,7 +20,7 @@ public class SXX extends AbstractPrimitiveQuery<Resource,Variable,Variable> {
 		Set<Substitution> substitutions = new HashSet<>();
 		
 		for ( final Triple t : target.listSXX(s) ) {
-			substitutions.add( new Substitution(p, t.getPredicate()) );
+			substitutions.add( Substitution.singleton(p, t.getPredicate()) );
 		}
 
 		return Resolution.of(substitutions);

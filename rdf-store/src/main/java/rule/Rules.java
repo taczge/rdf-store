@@ -3,9 +3,6 @@ package rule;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Sets;
-
 import core.Ontology;
 import core.Triple;
 
@@ -18,29 +15,37 @@ public class Rules {
 		this.rules = rules;
 	}
 	
-	public Rules(Rule...rules) {
-		this( Sets.newHashSet(rules) );
+	public Rules() {
+		this( new HashSet<Rule>() );
 	}
 	
-	public Ontology apply(Ontology target) {
+	public Rules(Rule...rs) {
+		this();
+		
+		for ( final Rule r : rs) {
+			rules.add( r );
+		}
+	}
+	
+	public Ontology apply(Ontology ontology) {
 		while ( true ) {
-			Set<Triple> triples = applyOnce(target);
-
-			if ( triples.isEmpty() ) {
+			Set<Triple> triples = applyOnce(ontology);
+			
+			boolean modifies = ontology.addAll(triples);
+			
+			if ( !modifies ) {
 				break;
 			}
-			
-			target.addAll(triples);
 		}
 		
-		return target;
+		return ontology;
 	}
 	
-	private Set<Triple> applyOnce(Ontology target) {
+	private Set<Triple> applyOnce(Ontology ontology) {
 		Set<Triple> triples = new HashSet<>();
 		
 		for ( final Rule r : rules) { 
-			triples.addAll( r.apply(target) );
+			triples.addAll( r.apply(ontology) );
 		}
 
 		return triples;
@@ -78,7 +83,14 @@ public class Rules {
 
 	@Override
 	public String toString() {
-		return Joiner.on(System.lineSeparator()).join(rules);
+		final String LS = System.lineSeparator();
+		StringBuilder sb = new StringBuilder();
+		
+		for ( final Rule r : rules ) {
+			sb.append(r).append(LS);
+		}
+		
+		return sb.toString();
 	}
 	
 }

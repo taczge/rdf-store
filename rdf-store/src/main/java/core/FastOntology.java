@@ -79,7 +79,11 @@ public class FastOntology implements Ontology {
 	}
 	
 	@Override
-	public void add(Triple t) {
+	public boolean add(Triple t) {
+		if ( contains(t) ) {
+			return false;
+		}
+		
 		Resource s = t.getSubject();
 		Resource p = t.getPredicate();
 		Resource o = t.getObject();
@@ -93,18 +97,26 @@ public class FastOntology implements Ontology {
 		if ( p.equals(o) ) samePO.add(t);
 		
 		if ( s.equals(p) && s.equals(o)) sameSPO.add(t);
+		
+		return true;
 	}
 	
 	@Override
-	public void add(Resource s, Resource p, Resource o) {
-		add( new Triple(s, p, o) );
+	public boolean add(Resource s, Resource p, Resource o) {
+		return add( new Triple(s, p, o) );
 	}
 	
 	@Override
-	public void addAll(Collection<Triple> ts) {
+	public boolean addAll(Collection<Triple> ts) {
+		boolean modifies = false;
+
 		for ( final Triple t : ts) {
-			add(t);
+			if ( add(t) ) {
+				modifies = true;
+			}
 		}
+		
+		return modifies;
 	}
 
 	@Override

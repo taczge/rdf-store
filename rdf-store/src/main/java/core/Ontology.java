@@ -5,9 +5,9 @@ import java.util.Collection;
 
 public interface Ontology {
 
-	void add(Triple t);
-	void add(Resource s, Resource p, Resource o);
-	void addAll(Collection<Triple> ts);
+	boolean add(Triple t);
+	boolean add(Resource s, Resource p, Resource o);
+	boolean addAll(Collection<Triple> ts);
 	
 	boolean contains(Triple t);
 	boolean contains(Resource s, Resource p, Resource o);

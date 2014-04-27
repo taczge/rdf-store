@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import query.Query;
+import query.QueryParser;
 import query.Variable;
 import query.primitive.XPY;
 import query.primitive.XYZ;
@@ -30,6 +31,19 @@ public class RuleParserTest {
 						
 		Rule expected = new Rule(head, body);
 		
+		assertThat(RuleParser.parse(exp), is(expected));
+	}
+	
+	@Test
+	public void parse_undecidable() throws Exception {
+		String exp = "?x, p ,a => ?x , p  , b .  ?x , q , b.   |  ?x , p , c. |  ?x , p , d.";
+		Query head = QueryParser.parse("?x,p,a.");
+		Query body1 = QueryParser.parse("?x,p,b.?x,q,b.");
+		Query body2 = QueryParser.parse("?x,p,c.");
+		Query body3 = QueryParser.parse("?x,p,d.");
+
+		Rule expected = new Rule(head, new UndecidableBody(body1, body2, body3));
+
 		assertThat(RuleParser.parse(exp), is(expected));
 	}
 
